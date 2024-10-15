@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.kotlin.serialization)
     implementation(libs.retrofit)
+    implementation(libs.compose.runtime)
     implementation(libs.retrofit.converter)
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)

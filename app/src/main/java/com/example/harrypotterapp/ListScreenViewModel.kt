@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.harrypotterapp.data.CharacterDto
 import com.example.harrypotterapp.domain.Resource
+import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.domain.repository.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +28,7 @@ class ListScreenViewModel @Inject constructor(
     private val triggerChannel = Channel<Unit>(Channel.CONFLATED)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val listScreenState : StateFlow<Resource<List<CharacterDto>>> = triggerChannel.receiveAsFlow().onStart {
+    val listScreenState : StateFlow<Resource<List<CharacterModel>>> = triggerChannel.receiveAsFlow().onStart {
         triggerChannel.send(Unit)
     }.flatMapLatest {  repository.getCharacterData() }.stateIn(
         viewModelScope,

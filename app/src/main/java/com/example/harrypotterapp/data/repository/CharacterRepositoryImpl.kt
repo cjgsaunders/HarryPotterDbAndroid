@@ -2,7 +2,9 @@ package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.CharacterDto
+import com.example.harrypotterapp.data.mappers.toCharacterModelList
 import com.example.harrypotterapp.domain.Resource
+import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.domain.repository.CharacterRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
@@ -13,11 +15,11 @@ class CharacterRepositoryImpl @Inject constructor(
     private val api: CharacterApi
 ) : CharacterRepository {
 
-    override suspend fun getCharacterData(): Flow<Resource<List<CharacterDto>>> = flow {
+    override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> = flow {
         try {
             emit(
                 Resource.Success(
-                    api.getCharacter()
+                    api.getCharacter().toCharacterModelList()
                 )
             )
         } catch (e: Exception) {
