@@ -38,7 +38,7 @@ import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPr
 fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
     val searchTextState = remember { mutableStateOf("") }
 
-    Column(modifier = Modifier.fillMaxWidth(). background(Color.LightGray)) {
+    Column(modifier = Modifier.fillMaxWidth(). background(MaterialTheme.colorScheme.surfaceContainer)) {
         TextField(
             modifier = Modifier.fillMaxWidth(),
             maxLines = 1,
