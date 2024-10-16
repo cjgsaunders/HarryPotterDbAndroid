@@ -9,10 +9,14 @@ plugins {
 }
 
 android {
+    ksp {
+        arg("room.generateKotlin", "true")
+    }
     namespace = "com.example.harrypotterapp"
     compileSdk = 34
 
     defaultConfig {
+
         applicationId = "com.example.harrypotterapp"
         minSdk = 28
         targetSdk = 34

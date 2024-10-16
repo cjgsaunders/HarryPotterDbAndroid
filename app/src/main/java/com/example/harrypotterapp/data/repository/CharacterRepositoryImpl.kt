@@ -1,17 +1,13 @@
 package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
-import com.example.harrypotterapp.data.CharacterDto
-import com.example.harrypotterapp.data.mappers.toCharacterModel
 import com.example.harrypotterapp.data.mappers.toCharacterModelList
 import com.example.harrypotterapp.domain.Resource
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.domain.repository.CharacterRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 

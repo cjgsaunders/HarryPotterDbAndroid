@@ -1,13 +1,9 @@
 package com.example.harrypotterapp.domain.models
 
 import androidx.compose.ui.graphics.Color
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.example.harrypotterapp.domain.Searchable
 
-@Entity("CHARACTER")
 data class CharacterModel(
-    @PrimaryKey
     val id: String,
     val characterName: String,
     val actor: String,

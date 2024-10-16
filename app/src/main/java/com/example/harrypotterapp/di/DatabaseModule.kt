@@ -2,6 +2,8 @@ package com.example.harrypotterapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.harrypotterapp.data.database.CharacterDao
+import com.example.harrypotterapp.data.database.CharacterDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,18 +15,18 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
 
-//    @Provides
-//    @Singleton
-//    fun provideDatabase(@ApplicationContext context: Context): CharacterDatabase {
-//        return Room.databaseBuilder(
-//            context.applicationContext,
-//            CharacterDatabase::class.java,
-//            "hogwarts_db"
-//        ).fallbackToDestructiveMigration().build()
-//    }
-//
-//    @Provides
-//    fun provideCharacterDao(database: CharacterDatabase): CharacterDao {
-//        return database.dao
-//    }
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): CharacterDatabase {
+        return Room.databaseBuilder(
+            context.applicationContext,
+            CharacterDatabase::class.java,
+            "hogwarts_db1"
+        ).fallbackToDestructiveMigration().build()
+    }
+
+    @Provides
+    fun provideCharacterDao(database: CharacterDatabase): CharacterDao {
+        return database.dao()
+    }
 }
