@@ -11,10 +11,10 @@ class CharacterModelPreviewProvider(): PreviewParameterProvider<List<CharacterMo
             get() = sequenceOf(
                 listOf(
                     CharacterModel(
-                        name = "Harry Potter",
+                        characterName = "Harry Potter",
                         id = "52",
                         actor = "Daniel Radcliffe",
-                        houseName = "Griffindor",
+                        houseNameLabel = "Griffindor",
                         alive = true,
                         image = "",
                         dateOfBirth = "31-07-1980",
@@ -23,10 +23,10 @@ class CharacterModelPreviewProvider(): PreviewParameterProvider<List<CharacterMo
 
                     ),
                     CharacterModel(
-                        name = "Cedric Diggory",
+                        characterName = "Cedric Diggory",
                         id = "52",
                         actor = "Robert Pattinson",
-                        houseName = "Hufflepuff",
+                        houseNameLabel = "Hufflepuff",
                         alive = true,
                         image = "",
                         dateOfBirth = "31-07-1980",
@@ -35,10 +35,10 @@ class CharacterModelPreviewProvider(): PreviewParameterProvider<List<CharacterMo
 
                     ),
                     CharacterModel(
-                        name = "Cho Chang",
+                        characterName = "Cho Chang",
                         id = "52",
                         actor = "Katie Leung",
-                        houseName = "Ravenclaw",
+                        houseNameLabel = "Ravenclaw",
                         alive = true,
                         image = "",
                         dateOfBirth = "31-07-1980",
@@ -46,10 +46,10 @@ class CharacterModelPreviewProvider(): PreviewParameterProvider<List<CharacterMo
                         species = "human"
                     ),
                     CharacterModel(
-                        name = "Severus Snape",
+                        characterName = "Severus Snape",
                         id = "52",
                         actor = "Katie Leung",
-                        houseName = "Ravenclaw",
+                        houseNameLabel = "Ravenclaw",
                         alive = true,
                         image = "",
                         dateOfBirth = "31-07-1980",
@@ -57,10 +57,10 @@ class CharacterModelPreviewProvider(): PreviewParameterProvider<List<CharacterMo
                         species = "human"
                     ),
                     CharacterModel(
-                        name = "Severus Snape",
+                        characterName = "Severus Snape",
                         id = "52",
                         actor = "Katie Leung",
-                        houseName = "",
+                        houseNameLabel = "",
                         alive = true,
                         image = "",
                         dateOfBirth = "31-07-1980",

@@ -8,10 +8,10 @@ fun CharacterDto.toCharacterModel() : CharacterModel {
         id = id,
         dateOfBirth = dateOfBirth,
         alive = alive,
-        name = name,
-        actor = actor,
-        species = species,
-        houseName = house,
+        characterName = name,
+        actor = actor.ifEmpty { "Unknown" },
+        species = species.ifEmpty { "Unknown" }.replaceFirstChar { it.uppercase() },
+        houseNameLabel = house.ifEmpty { "Not in a Hogwarts House" },
         houseColour = mapHouseToColor(house).hexColor,
         image = image
     )
