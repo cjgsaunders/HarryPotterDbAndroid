@@ -1,5 +1,6 @@
 package com.example.harrypotterapp.presentation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -13,11 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.ui.theme.HarryPotterAppTheme
+import com.example.harrypotterapp.presentation.theme.HarryPotterAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val listScreenViewModel: ListScreenViewModel by viewModels()
@@ -27,11 +30,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             HarryPotterAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                Scaffold(modifier = Modifier.fillMaxSize()) {  innerPadding ->
                     val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle()
 
                     when (val data = state) {
@@ -44,10 +43,6 @@ class MainActivity : ComponentActivity() {
                         }
 
                         is Resource.Error -> {
-                            Text("Error")
-                            Text("Error")
-                            Text("Error")
-                            Text("Error")
                             Text(data.error)
                         }
                     }

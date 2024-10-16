@@ -3,9 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
-    //alias(libs.plugins.kotlin.kapt)
+    id("com.google.devtools.ksp")
     //alias(libs.plugins.hilt.android)
 }
 
@@ -44,9 +43,6 @@ android {
     }
 
 }
-kapt {
-    correctErrorTypes = true
-}
 
 dependencies {
     implementation(libs.androidx.activity.compose)
@@ -57,13 +53,15 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.hilt.android)
     implementation(libs.androidx.lifecycle.runtime.compose.android)
-    kapt(libs.hilt.android.compiler)
+    ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.hilt.android)
     implementation(libs.okhttp)
     implementation(libs.hilt.navigation)
     implementation(libs.kotlin.serialization)
     implementation(libs.retrofit)
+    implementation(libs.room)
+    ksp(libs.room.compiler)
     implementation(libs.compose.runtime)
     implementation(libs.retrofit.converter)
     implementation(platform(libs.androidx.compose.bom))
