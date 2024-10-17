@@ -1,4 +1,4 @@
-package com.example.harrypotterapp.presentation
+package com.example.harrypotterapp.presentation.listScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,17 +14,12 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.runningReduce
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -64,9 +59,8 @@ open class ListScreenViewModel @Inject constructor(
     var toastMessage = _toastMessage.asStateFlow()
 
     private val triggerChannel = Channel<Unit>(Channel.CONFLATED)
-    private val triggerChannel1 = Channel<Unit>(Channel.CONFLATED)
 
-
+    // Initial flow
     @OptIn(ExperimentalCoroutinesApi::class)
     val listScreenState: StateFlow<Resource<List<CharacterModel>>> =
         triggerChannel.receiveAsFlow().onStart {
@@ -85,7 +79,7 @@ open class ListScreenViewModel @Inject constructor(
             !showErrorScreen && it is Resource.Error
         }.stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1), Resource.Loading
-        )
+        ).also { showLoadingScreen = false }
 
     // Filtered flow for the view
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -99,23 +93,6 @@ open class ListScreenViewModel @Inject constructor(
         }.stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000), Resource.Loading
         )
-
-    @OptIn(ExperimentalCoroutinesApi::class)
-    val singleCharacterScreenState: (String) -> StateFlow<Resource<CharacterModel>> = { characterId ->
-        val stateFlow = MutableStateFlow<Resource<CharacterModel>>(Resource.Loading)
-
-        viewModelScope.launch {
-            repository.getCharacterById(characterId)
-                .catch { e ->
-                    stateFlow.value = Resource.Error(e.message ?: "Unknown error")
-                }
-                .collect { resource ->
-                    stateFlow.value = resource
-                }
-        }
-
-        stateFlow
-    }
 
     fun clearToast() {
         _toastMessage.value = null

@@ -7,7 +7,6 @@ import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.presentation.ListScreenViewModel
 
 
 @Composable
@@ -20,7 +19,7 @@ fun DetailScreenComponent(
     val state by detailScreenViewModel.singleCharacterScreenState.collectAsStateWithLifecycle()
 
     LaunchedEffect(characterId) {
-        detailScreenViewModel.collectFavoriteNews(characterId ?: "")
+        detailScreenViewModel.collectSelectedCharacter(characterId ?: "")
     }
 
 

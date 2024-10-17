@@ -10,7 +10,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.harrypotterapp.R
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.presentation.ListScreenViewModel
 
 @Composable
 fun ListScreenComponent(
