@@ -67,7 +67,6 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacterById(characterId: String): Flow<Resource<CharacterModel>> =
         flow {
-            delay(Duration.ofMillis(500))
             emit(Resource.Success(dao.getCharacterById(characterId).toDomainModel()))
         }.flowOn(
             Dispatchers.IO

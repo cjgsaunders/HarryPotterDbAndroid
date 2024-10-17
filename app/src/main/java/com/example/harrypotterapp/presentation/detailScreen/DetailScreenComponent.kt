@@ -16,20 +16,9 @@ fun DetailScreenComponent(
 ) {
 
 
-    val state by detailScreenViewModel.singleCharacterScreenState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(characterId) {
-        detailScreenViewModel.collectSelectedCharacter(characterId ?: "")
-    }
-
-
+    val state by detailScreenViewModel.singleCharacterScreenStat1e(characterId ?: "").collectAsStateWithLifecycle(initialValue = Resource.Loading)
 
     when (val data = state) {
-            is Resource.Loading -> {
-                Text("loading")
-
-            }
-
             is Resource.Success -> {
                 DetailScreenContent(data.data)
             }
@@ -37,5 +26,10 @@ fun DetailScreenComponent(
             is Resource.Error -> {
                 Text(data.error)
             }
+
+        is Resource.Loading -> {
+            Text("loading")
+
+        }
         }
     }
