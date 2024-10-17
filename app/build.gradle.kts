@@ -9,6 +9,7 @@ plugins {
 }
 
 android {
+    compileSdk = 34
     ksp {
         arg("room.generateKotlin", "true")
     }
@@ -16,7 +17,6 @@ android {
     compileSdk = 34
 
     defaultConfig {
-
         applicationId = "com.example.harrypotterapp"
         minSdk = 28
         targetSdk = 34
