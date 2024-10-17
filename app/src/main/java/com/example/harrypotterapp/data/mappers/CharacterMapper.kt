@@ -1,6 +1,8 @@
 package com.example.harrypotterapp.data.mappers
 
+import androidx.compose.ui.graphics.Color
 import com.example.harrypotterapp.data.CharacterDto
+import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.domain.models.CharacterModel
 
 fun CharacterDto.toCharacterModel() : CharacterModel {

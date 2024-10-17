@@ -2,12 +2,11 @@ package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.database.CharacterDao
-import com.example.harrypotterapp.data.database.CharacterEntity
-import com.example.harrypotterapp.data.database.toDb
 import com.example.harrypotterapp.data.database.toDomainModel
 import com.example.harrypotterapp.data.mappers.toCharacterModelList
 import com.example.harrypotterapp.domain.Resource
 import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.models.toDb
 import com.example.harrypotterapp.domain.repository.CharacterRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +14,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.time.delay

@@ -1,6 +1,8 @@
 package com.example.harrypotterapp.domain.models
 
 import androidx.compose.ui.graphics.Color
+import com.example.harrypotterapp.data.database.CharacterEntity
+import com.example.harrypotterapp.data.mappers.toHexString
 import com.example.harrypotterapp.domain.Searchable
 
 data class CharacterModel(
@@ -20,3 +22,15 @@ data class CharacterModel(
         ).any { it.contains(searchString, ignoreCase = true) }
     }
 }
+
+fun CharacterModel.toDb() = CharacterEntity(
+    id = id,
+    characterName = characterName,
+    actor = actor,
+    alive = alive,
+    houseNameLabel = houseNameLabel,
+    dateOfBirth = dateOfBirth,
+    image = image,
+    species = species,
+    houseColour = houseColour.toHexString()
+)
