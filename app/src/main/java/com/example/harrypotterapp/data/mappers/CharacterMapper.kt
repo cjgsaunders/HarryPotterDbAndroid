@@ -8,7 +8,7 @@ import com.example.harrypotterapp.domain.models.CharacterModel
 fun CharacterDto.toCharacterModel() : CharacterModel {
     return CharacterModel(
         id = id,
-        dateOfBirth = dateOfBirth,
+        dateOfBirth = dateOfBirth.toFormattedDate(),
         alive = alive,
         characterName = name,
         actor = actor.ifEmpty { "Unknown" },

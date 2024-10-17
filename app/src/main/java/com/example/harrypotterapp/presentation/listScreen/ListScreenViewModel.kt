@@ -6,9 +6,11 @@ import com.example.harrypotterapp.domain.Resource
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.domain.repository.CharacterRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +19,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -29,27 +32,20 @@ open class ListScreenViewModel @Inject constructor(
     private val repository: CharacterRepository
 ) : ViewModel() {
 
-    private var showLoadingScreen = true
+    //private var showLoadingScreen = true
     private var showErrorScreen = true
     fun triggerRefresh() {
-        showLoadingScreen = false
-        showErrorScreen = false
+        //showLoadingScreen = false
         viewModelScope.launch {
             triggerChannel.send(Unit)
         }
-    }
-
-    var selectedCharacter: CharacterModel? = null
-
-    fun selectCharacter(characterModel: CharacterModel){
-        selectedCharacter = characterModel
     }
 
     private val _searchText = MutableStateFlow("")
 
     @OptIn(FlowPreview::class)
     private val searchText =
-        _searchText.asStateFlow().debounce(1000).onStart { emit(_searchText.toString()) }
+        _searchText.asStateFlow().debounce(1000)
 
     fun onSearchTextChange(searchText: String) {
         _searchText.value = searchText
@@ -62,28 +58,25 @@ open class ListScreenViewModel @Inject constructor(
 
     // Initial flow
     @OptIn(ExperimentalCoroutinesApi::class)
-    val listScreenState: StateFlow<Resource<List<CharacterModel>>> =
+    val listScreenState: Flow<Resource<List<CharacterModel>>> =
         triggerChannel.receiveAsFlow().onStart {
             triggerChannel.send(Unit)
+
         }.flatMapLatest {
             repository.getCharacterData()
         }.onEach { screen ->
             when(screen){
                 is Resource.Error -> _toastMessage.value = screen.error
-                is Resource.Success,
+                is Resource.Success -> showErrorScreen = false
                 is Resource.Loading -> {}
             }
-        }.filterNot {
-            !showLoadingScreen && it == Resource.Loading
-        }.filterNot {
-            !showErrorScreen && it is Resource.Error
-        }.stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1), Resource.Loading
-        ).also { showLoadingScreen = false }
+        }.filterNot { !showErrorScreen && it == Resource.Error("") }.flowOn(Dispatchers.IO)
 
-    // Filtered flow for the view
+    // Search filtered flow
+    // Hot flow to emit the current screen before a network request.
+    // Stops loading spinners showing in pages that wont update often
     @OptIn(ExperimentalCoroutinesApi::class)
-    val filteredListScreenState: StateFlow<Resource<List<CharacterModel>>> = searchText
+    val filteredListScreenState: Flow<Resource<List<CharacterModel>>> = searchText
         .flatMapLatest { query ->
             if (query.isBlank()) {
                 listScreenState
@@ -91,7 +84,9 @@ open class ListScreenViewModel @Inject constructor(
                 repository.searchCharacters(query)
             }
         }.stateIn(
-            viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000), Resource.Loading
+            scope = this.viewModelScope,
+            started = SharingStarted.Lazily,
+            initialValue = Resource.Loading
         )
 
     fun clearToast() {

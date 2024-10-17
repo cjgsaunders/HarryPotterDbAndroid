@@ -16,7 +16,7 @@ fun ListScreenComponent(
     listScreenViewModel: ListScreenViewModel = hiltViewModel(),
     onCardClicked: (String) -> Unit
 ) {
-    val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle()
+    val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle(initialValue = Resource.Loading)
     val toastError by listScreenViewModel.toastMessage.collectAsStateWithLifecycle()
 
     when (val data = state) {

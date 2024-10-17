@@ -34,6 +34,7 @@ class CharacterRepositoryImpl @Inject constructor(
 
     override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> =
         flow<Resource<List<CharacterModel>>> {
+            emit(Resource.Loading)
             emit(
                 Resource.Success(
                     dao.getAllData().map { characterEntity -> characterEntity.toDomainModel() })
@@ -47,22 +48,17 @@ class CharacterRepositoryImpl @Inject constructor(
             }
         }.catch { e ->
             emit(Resource.Error(e.message ?: "Unknown error"))
-        }.stateIn(
-            scope = CoroutineScope(Dispatchers.IO),
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = Resource.Loading
+        }.flowOn(
+            Dispatchers.IO
         )
-
     override suspend fun searchCharacters(searchText: String): Flow<Resource<List<CharacterModel>>> =
         flow {
             emit(
                 Resource.Success(
                     dao.searchCharacters("%$searchText%").map { it.toDomainModel() })
             )
-        }.stateIn(
-            scope = CoroutineScope(Dispatchers.IO),
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = Resource.Success(emptyList())
+        }.flowOn(
+            Dispatchers.IO
         )
 
     override suspend fun getCharacterById(characterId: String): Flow<Resource<CharacterModel>> =
