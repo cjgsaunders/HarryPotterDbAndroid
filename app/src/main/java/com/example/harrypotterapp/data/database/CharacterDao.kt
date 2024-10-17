@@ -4,13 +4,15 @@ import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
 import com.example.harrypotterapp.data.CharacterDto
+import com.example.harrypotterapp.domain.Resource
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterDao {
 
     @Upsert
-    suspend fun upsertCharacter(characterModel: CharacterDto)
+    suspend fun upsertCharacter(characterModel: CharacterEntity)
 
     @Query("SELECT * from CHARACTER")
-    fun getAllData(): List<CharacterDto>
+    fun getAllData(): List<CharacterEntity>
 }

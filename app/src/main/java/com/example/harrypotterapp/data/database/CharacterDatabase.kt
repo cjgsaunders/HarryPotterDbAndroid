@@ -6,7 +6,7 @@ import com.example.harrypotterapp.data.CharacterDto
 import com.example.harrypotterapp.domain.models.CharacterModel
 
 @Database(
-    entities = [CharacterDto::class],
+    entities = [CharacterEntity::class],
     version = 1,
     exportSchema = false
 )
