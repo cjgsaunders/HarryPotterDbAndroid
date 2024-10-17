@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">HarryPotterApp</string>
+    <string name="detailed_view">DetailedView</string>
+    <string name="back_button">Back</string>
+    <string name="unknown_error">Unknown Error</string>
+    <string name="search_placeholder">Search actor or character name</string>
+    <string name="results">Results</string>
 </resources>

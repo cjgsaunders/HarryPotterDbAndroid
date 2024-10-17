@@ -1,6 +1,7 @@
-package com.example.harrypotterapp.presentation
+package com.example.harrypotterapp.presentation.listScreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -36,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.harrypotterapp.R
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import kotlinx.coroutines.delay
@@ -58,29 +61,32 @@ fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
                 searchTextState.value = updatedText
                 onSearchTextChange.invoke(updatedText)
             },
-            placeholder = { Text("Search character, actor, species, house") }
+            placeholder = { Text(stringResource(R.string.search_placeholder)) }
         )
-        Text(modifier = Modifier.padding(start = 10.dp), text = "Results: $size")
+        Text(modifier = Modifier.padding(start = 10.dp), text = "${stringResource(R.string.results)} $size")
     }
 }
 
 @Composable
-fun ScreenComponent(
+fun ListScreenContent(
     characters: List<CharacterModel>,
     onSearchTextChange: (String) -> Unit,
-    refresh: () -> Unit
+    refresh: () -> Unit,
+    onCardClicked: (String) -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 0.dp)) {
         SearchComponent(onSearchTextChange, characters.size)
-        GridListComponent(characters, refresh)
-
+        GridListComponent(characters, refresh, onCardClicked)
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun GridListComponent(characters: List<CharacterModel>, refresh: () -> Unit) {
+private fun GridListComponent(
+    characters: List<CharacterModel>,
+    refresh: () -> Unit,
+    onCardClicked: (String) -> Unit
+) {
     val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -97,21 +103,20 @@ private fun GridListComponent(characters: List<CharacterModel>, refresh: () -> U
 
             }
         }){
-            LazyVerticalGrid(
-                columns = GridCells.Adaptive(minSize = 400.dp),
-                modifier = Modifier.fillMaxSize(),
-                state = rememberLazyGridState()
-            ) {
-                items(characters) { character ->
-                    CharacterCard(character)
-                }
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(minSize = 400.dp),
+            modifier = Modifier.fillMaxSize(),
+            state = rememberLazyGridState()
+        ) {
+            items(characters) { character ->
+                CharacterCard(character, onCardClicked)
             }
         }
+    }
 }
 
-
 @Composable
-private fun CharacterCard(character: CharacterModel) {
+private fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     Card(
         shape = MaterialTheme.shapes.small,
         elevation = CardDefaults.outlinedCardElevation(),
@@ -121,7 +126,9 @@ private fun CharacterCard(character: CharacterModel) {
                 top = 6.dp,
                 end = 16.dp
             )
-            .fillMaxWidth()
+            .fillMaxWidth().clickable {
+                onCardClicked.invoke(character.id)
+            }
     ) {
         //Row() {
 //                    AsyncImage(
@@ -187,5 +194,6 @@ fun SuccessComponentPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
     characters: List<CharacterModel>
 ) {
-    ScreenComponent(characters, {}, {})
+    ListScreenContent(characters, {}, {}, {})
 }
+

@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
@@ -43,6 +44,12 @@ open class ListScreenViewModel @Inject constructor(
         }
     }
 
+    var selectedCharacter: CharacterModel? = null
+
+    fun selectCharacter(characterModel: CharacterModel){
+        selectedCharacter = characterModel
+    }
+
     private val _searchText = MutableStateFlow("")
 
     @OptIn(FlowPreview::class)
@@ -57,6 +64,7 @@ open class ListScreenViewModel @Inject constructor(
     var toastMessage = _toastMessage.asStateFlow()
 
     private val triggerChannel = Channel<Unit>(Channel.CONFLATED)
+    private val triggerChannel1 = Channel<Unit>(Channel.CONFLATED)
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -79,34 +87,6 @@ open class ListScreenViewModel @Inject constructor(
             viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1), Resource.Loading
         )
 
-
-
-
-//    // Filtered flow for the view
-//    val filteredListScreenState: StateFlow<Resource<List<CharacterModel>>> = combine(
-//        listScreenState, searchText
-//    ) { listState, query ->
-//        when (listState) {
-//            is Resource.Success -> {
-//                val filteredList = if (query.isBlank()) {
-//                    listState.data
-//                } else {
-//                    listState.data.filter { it.searchCharacterInfo(query) }
-//                }
-//                Resource.Success(filteredList)
-//            }
-//
-//            is Resource.Loading -> Resource.Loading
-//            is Resource.Error -> Resource.Error(listState.error)
-//        }
-//    }.stateIn(
-//        viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000), Resource.Loading
-//    )
-//
-//    fun clearToast() {
-//        _toastMessage.value = null
-//    }
-
     // Filtered flow for the view
     @OptIn(ExperimentalCoroutinesApi::class)
     val filteredListScreenState: StateFlow<Resource<List<CharacterModel>>> = searchText
@@ -119,6 +99,23 @@ open class ListScreenViewModel @Inject constructor(
         }.stateIn(
             viewModelScope, SharingStarted.WhileSubscribed(stopTimeoutMillis = 1000), Resource.Loading
         )
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val singleCharacterScreenState: (String) -> StateFlow<Resource<CharacterModel>> = { characterId ->
+        val stateFlow = MutableStateFlow<Resource<CharacterModel>>(Resource.Loading)
+
+        viewModelScope.launch {
+            repository.getCharacterById(characterId)
+                .catch { e ->
+                    stateFlow.value = Resource.Error(e.message ?: "Unknown error")
+                }
+                .collect { resource ->
+                    stateFlow.value = resource
+                }
+        }
+
+        stateFlow
+    }
 
     fun clearToast() {
         _toastMessage.value = null

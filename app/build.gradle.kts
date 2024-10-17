@@ -60,6 +60,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.hilt.android)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.okhttp)
     implementation(libs.hilt.navigation)
     implementation(libs.kotlin.serialization)

@@ -16,6 +16,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.harrypotterapp.domain.Resource
 import com.example.harrypotterapp.presentation.theme.HarryPotterAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,58 +26,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val listScreenViewModel: ListScreenViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             HarryPotterAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) {  innerPadding ->
-                    val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle()
-                    val toastError by listScreenViewModel.toastMessage.collectAsStateWithLifecycle()
-
-                    when (val data = state) {
-                        is Resource.Loading -> {
-                            Text("loading")
-
-                        }
-
-                        is Resource.Success -> {
-                            ScreenComponent(data.data, listScreenViewModel::onSearchTextChange, listScreenViewModel::triggerRefresh)
-                        }
-
-                        is Resource.Error -> {
-                            Text(data.error)
-                        }
-                    }
-                    toastError?.let { ShowErrorToast(toastError ?: "unkown error")
-                    listScreenViewModel.clearToast()}
-                }
+                HarryPotterDbApp()
             }
         }
     }
 }
-
-@Composable
-fun ShowErrorToast(errorMessage: String) {
-    val context = LocalContext.current
-    Toast.makeText(context, errorMessage, Toast.LENGTH_LONG).show()
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    HarryPotterAppTheme {
-        Greeting("Android")
-    }
-}
-

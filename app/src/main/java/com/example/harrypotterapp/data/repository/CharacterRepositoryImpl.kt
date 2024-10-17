@@ -2,6 +2,7 @@ package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.database.CharacterDao
+import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.data.database.toDomainModel
 import com.example.harrypotterapp.data.mappers.toCharacterModelList
 import com.example.harrypotterapp.domain.Resource
@@ -14,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.time.delay
@@ -31,7 +33,7 @@ class CharacterRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> =
-        flow <Resource<List<CharacterModel>>>{
+        flow<Resource<List<CharacterModel>>> {
             emit(
                 Resource.Success(
                     dao.getAllData().map { characterEntity -> characterEntity.toDomainModel() })
@@ -51,14 +53,23 @@ class CharacterRepositoryImpl @Inject constructor(
             initialValue = Resource.Loading
         )
 
-    override suspend fun searchCharacters(searchText: String): Flow<Resource<List<CharacterModel>>> = flow {
-        emit(
-            Resource.Success(
-                dao.searchCharacters("%$searchText%").map { it.toDomainModel() })
+    override suspend fun searchCharacters(searchText: String): Flow<Resource<List<CharacterModel>>> =
+        flow {
+            emit(
+                Resource.Success(
+                    dao.searchCharacters("%$searchText%").map { it.toDomainModel() })
+            )
+        }.stateIn(
+            scope = CoroutineScope(Dispatchers.IO),
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = Resource.Success(emptyList())
         )
-    }.stateIn(
-        scope = CoroutineScope(Dispatchers.IO),
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = Resource.Success(emptyList())
-    )
+
+    override suspend fun getCharacterById(characterId: String): Flow<Resource<CharacterModel>> =
+        flow {
+            delay(Duration.ofMillis(500))
+            emit(Resource.Success(dao.getCharacterById(characterId).toDomainModel()))
+        }.flowOn(
+            Dispatchers.IO
+        )
 }
