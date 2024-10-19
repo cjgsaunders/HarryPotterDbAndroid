@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,6 +26,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.harrypotterapp.R
 import com.example.harrypotterapp.presentation.detailScreen.DetailScreenComponent
 import com.example.harrypotterapp.presentation.listScreen.ListScreenComponent
+import com.example.harrypotterapp.presentation.theme.LocalColorScheme
+import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @Composable
 fun HarryPotterDbApp(
@@ -35,30 +38,34 @@ fun HarryPotterDbApp(
         backStackEntry?.destination?.route?.substringBefore("/") ?: AppScreen.Start.name
     )
 
-    Scaffold(topBar = {
-        GlobalTopAppBar(currentScreen = currentScreen,
-            canNavigateBack = navController.previousBackStackEntry != null,
-            navigateUp = { navController.navigateUp() })
-    }) { innerPadding ->
 
-        NavHost(
-            navController = navController,
-            startDestination = AppScreen.Start.name,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            composable(route = AppScreen.Start.name) {
-                ListScreenComponent(
-                    onCardClicked = { characterId ->
-                        navController.navigate("${AppScreen.DetailScreen.name}/$characterId")
-                    }
-                )
-            }
-            composable(route = "${AppScreen.DetailScreen.name}/{characterId}") {
-                    backStackEntry ->
-                val characterId = backStackEntry.arguments?.getString("characterId")
-                DetailScreenComponent(characterId = characterId)
+    CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
+
+
+        Scaffold(topBar = {
+            GlobalTopAppBar(currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateUp = { navController.navigateUp() })
+        }) { innerPadding ->
+
+            NavHost(
+                navController = navController,
+                startDestination = AppScreen.Start.name,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding)
+            ) {
+                composable(route = AppScreen.Start.name) {
+                    ListScreenComponent(
+                        onCardClicked = { characterId ->
+                            navController.navigate("${AppScreen.DetailScreen.name}/$characterId")
+                        }
+                    )
+                }
+                composable(route = "${AppScreen.DetailScreen.name}/{characterId}") { backStackEntry ->
+                    val characterId = backStackEntry.arguments?.getString("characterId")
+                    DetailScreenComponent(characterId = characterId)
+                }
             }
         }
     }

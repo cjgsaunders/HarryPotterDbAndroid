@@ -5,16 +5,24 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    alias(libs.plugins.screenshot)
     //alias(libs.plugins.hilt.android)
 }
 
 android {
+    experimentalProperties["android.experimental.enableScreenshotTest"] = true
     compileSdk = 34
     ksp {
         arg("room.generateKotlin", "true")
     }
     namespace = "com.example.harrypotterapp"
     compileSdk = 34
+
+    testOptions {
+        screenshotTests {
+            imageDifferenceThreshold = 0.0001f // 0.01%
+        }
+    }
 
     defaultConfig {
         applicationId = "com.example.harrypotterapp"
@@ -71,6 +79,7 @@ dependencies {
     implementation(libs.retrofit.converter)
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)
+    screenshotTestImplementation(libs.androidx.compose.ui.tooling)
 
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
