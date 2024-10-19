@@ -2,10 +2,17 @@ package com.example.harrypotterapp.presentation.listScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -30,11 +37,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -60,7 +72,9 @@ fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
 
 
         TextField(
-            modifier = Modifier.fillMaxWidth().background(LocalColorScheme.current.searchBoxBackground),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(LocalColorScheme.current.searchBoxBackground),
             colors = TextFieldDefaults.colors().copy(
                 unfocusedContainerColor = LocalColorScheme.current.searchBoxBackground,
                 focusedContainerColor = LocalColorScheme.current.searchBoxBackground,
@@ -149,6 +163,7 @@ private fun GridListComponent(
     }
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     Card(
@@ -169,35 +184,11 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
                 onCardClicked.invoke(character.id)
             }
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            character.houseColour ?: LocalColorScheme.current.noHouseStartGradient,
-                            LocalColorScheme.current.cardBackground
-                        ),
-                        startY = 0f,
-                        endY = Float.POSITIVE_INFINITY
-                    )
-                )
-        ) {
-            // Title
-            Text(
-                character.characterName,
-                color = LocalColorScheme.current.textColor,
-                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(bottom = 20.dp, top = 4.dp, start = 10.dp, end = 10.dp)
-            )
-        }
+        CardTitleGradientBackground(character)
 
         // Contents
         Column(
             Modifier
-
                 .fillMaxWidth()
                 .background(LocalColorScheme.current.cardBackground)
         ) {
@@ -217,6 +208,35 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     }
 }
 
+@Composable
+fun CardTitleGradientBackground(character: CharacterModel) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        character.houseColour ?: LocalColorScheme.current.noHouseStartGradient,
+                        LocalColorScheme.current.cardBackground
+                    ),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY
+                )
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = character.characterName,
+            color = LocalColorScheme.current.textColor,
+            style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
+            modifier = Modifier
+                .padding(bottom = 20.dp, top = 15.dp, start = 10.dp, end = 10.dp),
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@PreviewFontScaleCustom
 @PreviewLightDark
 @Composable
 fun CharacterCardPreview(
@@ -230,6 +250,7 @@ fun CharacterCardPreview(
 }
 
 
+@PreviewFontScaleCustom
 @PreviewLightDark
 @Composable
 fun SuccessComponentPreview(
@@ -239,7 +260,9 @@ fun SuccessComponentPreview(
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         ListScreenContent(characters, {}, {}, {})
     }
-
-
 }
 
+
+@Preview(name = "100%", fontScale = 1.0f)
+@Preview(name = "200%", fontScale = 2.5f)
+annotation class PreviewFontScaleCustom
