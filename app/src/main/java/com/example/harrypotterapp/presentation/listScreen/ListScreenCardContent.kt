@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
+import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 

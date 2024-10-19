@@ -2,12 +2,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.presentation.detailScreen.DetailScreenComponent
 import com.example.harrypotterapp.presentation.listScreen.CharacterCard
 import com.example.harrypotterapp.presentation.listScreen.ListScreenComponent
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
+import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
