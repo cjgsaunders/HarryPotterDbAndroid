@@ -44,8 +44,14 @@ open class ListScreenViewModel @Inject constructor(
     private val _searchText = MutableStateFlow("")
 
     @OptIn(FlowPreview::class)
-    private val searchText =
-        _searchText.asStateFlow().debounce(1000)
+    val searchText = _searchText
+        .asStateFlow()
+        .debounce(1000)
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = ""
+        )
 
     fun onSearchTextChange(searchText: String) {
         _searchText.value = searchText

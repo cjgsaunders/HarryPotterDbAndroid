@@ -2,13 +2,9 @@ package com.example.harrypotterapp.presentation.listScreen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -37,16 +33,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewFontScale
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -59,8 +52,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
-    val searchTextState = remember { mutableStateOf("") }
+fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int, searchText: String) {
+    val searchTextState = remember { mutableStateOf(searchText) }
 
     Column(
         modifier = Modifier
@@ -106,7 +99,7 @@ fun ListScreenContent(
     onSearchTextChange: (String) -> Unit,
     refresh: () -> Unit,
     onCardClicked: (String) -> Unit,
-    modifier: Modifier = Modifier
+    searchText: String
 ) {
     Column(
         modifier = Modifier
@@ -122,8 +115,8 @@ fun ListScreenContent(
                 )
             )
     ) {
-        SearchComponent(onSearchTextChange, characters.size)
-        GridListComponent(characters, refresh, onCardClicked, modifier)
+        SearchComponent(onSearchTextChange, characters.size, searchText)
+        GridListComponent(characters, refresh, onCardClicked)
     }
 }
 
@@ -163,7 +156,6 @@ private fun GridListComponent(
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     Card(
@@ -185,24 +177,50 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
             }
     ) {
         CardTitleGradientBackground(character)
+        ListScreenCardDetails(character)
+    }
+}
 
-        // Contents
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .background(LocalColorScheme.current.cardBackground)
-        ) {
+@Composable
+@OptIn(ExperimentalLayoutApi::class)
+private fun ListScreenCardDetails(character: CharacterModel) {
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .background(LocalColorScheme.current.cardBackground)
+    ) {
+        FlowRow {
             Text(
-                color = LocalColorScheme.current.textColor,
-                text = "Played by: ${character.actor}",
+                color = LocalColorScheme.current.dataSubtitle,
+                text = "Played by: ",
                 style = TextStyle(fontSize = 12.sp),
-                modifier = Modifier.padding(start = 20.dp, bottom = 10.dp, top = 20.dp, end = 20.dp)
+                modifier = Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 20.dp)
+                    .widthIn(min = 100.dp)
             )
             Text(
                 color = LocalColorScheme.current.textColor,
-                text = "Species: ${character.species}",
+                text = character.actor,
                 style = TextStyle(fontSize = 12.sp),
-                modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp, end = 20.dp)
+                modifier = Modifier
+                    .padding(start = 20.dp, bottom = 20.dp, top = 20.dp,  end = 20.dp)
+            )
+        }
+        FlowRow {
+            Text(
+                color = LocalColorScheme.current.dataSubtitle,
+                text = "Species:",
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
+                    .widthIn(min = 100.dp)
+            )
+            Text(
+                color = LocalColorScheme.current.textColor,
+                text = character.species,
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier
+                    .padding(start = 20.dp, bottom = 20.dp, top = 10.dp, end = 20.dp)
             )
         }
     }
@@ -230,7 +248,7 @@ fun CardTitleGradientBackground(character: CharacterModel) {
             color = LocalColorScheme.current.textColor,
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
             modifier = Modifier
-                .padding(bottom = 20.dp, top = 15.dp, start = 10.dp, end = 10.dp),
+                .padding(bottom = 20.dp, top = 20.dp, start = 10.dp, end = 10.dp),
             textAlign = TextAlign.Center
         )
     }
@@ -258,7 +276,7 @@ fun SuccessComponentPreview(
     characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
-        ListScreenContent(characters, {}, {}, {})
+        ListScreenContent(characters, {}, {}, {}, "")
     }
 }
 

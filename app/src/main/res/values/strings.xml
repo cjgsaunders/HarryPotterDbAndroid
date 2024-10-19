@@ -3,6 +3,13 @@
     <string name="detailed_view">DetailedView</string>
     <string name="back_button">Back</string>
     <string name="unknown_error">Unknown Error</string>
+    <string name="unknown">Unknown</string>
     <string name="search_placeholder">Search actor or character name</string>
     <string name="results">Results</string>
+    <string name="played_by">Played by:</string>
+    <string name="species">Species:</string>
+    <string name="house">House:</string>
+    <string name="date_of_birth">Date of birth:</string>
+    <string name="alive">Alive</string>
+    <string name="dead">Dead</string>
 </resources>

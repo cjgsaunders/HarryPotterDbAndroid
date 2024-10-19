@@ -77,6 +77,9 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(libs.compose.runtime)
     implementation(libs.retrofit.converter)
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network)
+
     implementation(platform(libs.androidx.compose.bom))
     testImplementation(libs.junit)
     screenshotTestImplementation(libs.androidx.compose.ui.tooling)
