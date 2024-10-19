@@ -29,13 +29,3 @@ enum class HouseString(
     RAVENCLAW("A member of house Gryffindor"),
     DEFAULT("Not in a Hogwarts house.")
 }
-
-fun Color?.toHexString(): String? = this?.let {
-    String.format(
-        "#%02X%02X%02X%02X",
-        (it.alpha * 255).toInt(),
-        (it.red * 255).toInt(),
-        (it.green * 255).toInt(),
-        (it.blue * 255).toInt()
-    )
-}

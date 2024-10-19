@@ -2,11 +2,11 @@ package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.database.CharacterDao
-import com.example.harrypotterapp.data.database.toDomainModel
+import com.example.harrypotterapp.data.mappers.toCharacterModel
 import com.example.harrypotterapp.data.mappers.toCharacterModelList
+import com.example.harrypotterapp.data.toDb
 import com.example.harrypotterapp.domain.Resource
 import com.example.harrypotterapp.domain.models.CharacterModel
-import com.example.harrypotterapp.domain.models.toDb
 import com.example.harrypotterapp.domain.repository.CharacterRepository
 import java.time.Duration
 import javax.inject.Inject
@@ -27,47 +27,43 @@ constructor(
     private suspend fun updateCharactersFromNetwork() {
         api
             .getCharacter()
-            .let { characters -> characters.toCharacterModelList().map { it.toDb() } }
+            .let { characters -> characters.map { it.toDb() } }
             .also { characters -> characters.map { dao.upsertCharacter(it) } }
     }
 
-    override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> =
-        flow<Resource<List<CharacterModel>>> {
-            emit(Resource.Loading)
-            emit(
-                Resource.Success(
-                    dao.getAllData().map { characterEntity -> characterEntity.toDomainModel() }
-                )
-            )
-        }.onStart {
-            try {
-                updateCharactersFromNetwork()
-            } catch (e: Exception) {
-                emit(Resource.Error(e.message ?: "unknown error loading data"))
-                delay(Duration.ofMillis(50))
-            }
-        }.catch { e ->
-            emit(Resource.Error(e.message ?: "Unknown error"))
-        }.flowOn(
-            Dispatchers.IO
-        )
-
-    override suspend fun searchCharacters(
-        searchText: String
-    ): Flow<Resource<List<CharacterModel>>> = flow {
+    override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> = flow {
+        emit(Resource.Loading)
         emit(
             Resource.Success(
-                dao.searchCharacters("%$searchText%").map { it.toDomainModel() }
+                dao.getAllData().toCharacterModelList()
+            )
+        )
+    }.onStart {
+        try {
+            updateCharactersFromNetwork()
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "unknown error loading data"))
+            delay(Duration.ofMillis(50))
+        }
+    }.catch { e ->
+        emit(Resource.Error(e.message ?: "Unknown error"))
+    }.flowOn(
+        Dispatchers.IO
+    )
+
+    override suspend fun searchCharacters(searchText: String) = flow {
+        emit(
+            Resource.Success(
+                dao.searchCharacters("%$searchText%").toCharacterModelList()
             )
         )
     }.flowOn(
         Dispatchers.IO
     )
 
-    override suspend fun getCharacterById(characterId: String): Flow<Resource<CharacterModel>> =
-        flow {
-            emit(Resource.Success(dao.getCharacterById(characterId).toDomainModel()))
-        }.flowOn(
-            Dispatchers.IO
-        )
+    override suspend fun getCharacterById(characterId: String) = flow {
+        emit(Resource.Success(dao.getCharacterById(characterId).toCharacterModel()))
+    }.flowOn(
+        Dispatchers.IO
+    )
 }
