@@ -18,8 +18,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.R
 import com.example.harrypotterapp.domain.models.CharacterModel
 import com.example.harrypotterapp.presentation.listScreen.CardTitleGradientBackground
-import com.example.harrypotterapp.presentation.listScreen.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
@@ -46,26 +44,26 @@ fun DetailScreenComponent(character: CharacterModel) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(LocalColorScheme.current.startBackground),
+            .background(LocalColorScheme.current.startBackground)
     ) {
         Card(
             shape = CardDefaults.shape,
             colors =
-                CardDefaults.cardColors().copy(
-                    containerColor = LocalColorScheme.current.cardBackground,
-                    contentColor = LocalColorScheme.current.cardBackground,
-                    disabledContentColor = LocalColorScheme.current.cardBackground,
-                    disabledContainerColor = LocalColorScheme.current.cardBackground,
-                ),
+            CardDefaults.cardColors().copy(
+                containerColor = LocalColorScheme.current.cardBackground,
+                contentColor = LocalColorScheme.current.cardBackground,
+                disabledContentColor = LocalColorScheme.current.cardBackground,
+                disabledContainerColor = LocalColorScheme.current.cardBackground
+            ),
             elevation = CardDefaults.outlinedCardElevation(3.dp),
             modifier =
-                Modifier
-                    .padding(
-                        start = 16.dp,
-                        bottom = 6.dp,
-                        top = 6.dp,
-                        end = 16.dp,
-                    ).fillMaxWidth(),
+            Modifier
+                .padding(
+                    start = 16.dp,
+                    bottom = 6.dp,
+                    top = 6.dp,
+                    end = 16.dp
+                ).fillMaxWidth()
         ) {
             CardTitleGradientBackground(character)
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
@@ -78,7 +76,7 @@ fun DetailScreenComponent(character: CharacterModel) {
                 }
                 Column(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End,
+                    horizontalAlignment = Alignment.End
                 ) {
                     CharacterImage(character)
                 }
@@ -95,7 +93,7 @@ private fun CharacterImage(character: CharacterModel) {
         error = painterResource(R.drawable.no_image),
         contentDescription = "image of ${character.characterName}",
         modifier = Modifier.aspectRatio(3f / 4f),
-        contentScale = ContentScale.Crop,
+        contentScale = ContentScale.Crop
     )
 }
 
@@ -107,16 +105,16 @@ private fun DateOfBirth(character: CharacterModel) {
             stringResource(R.string.date_of_birth),
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
         Text(
             character.dateOfBirth ?: stringResource(R.string.unknown),
             color = LocalColorScheme.current.textColor,
             fontSize = 12.sp,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
     }
 }
@@ -129,15 +127,15 @@ private fun House(character: CharacterModel) {
             stringResource(R.string.house),
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
         Text(
             character.houseNameLabel,
             color = LocalColorScheme.current.textColor,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
     }
 }
@@ -150,15 +148,15 @@ private fun Actor(character: CharacterModel) {
             stringResource(R.string.played_by),
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
         Text(
             character.actor,
             color = LocalColorScheme.current.textColor,
             modifier =
-                Modifier
-                    .padding(start = 20.dp, bottom = 10.dp),
+            Modifier
+                .padding(start = 20.dp, bottom = 10.dp)
         )
     }
 }
@@ -167,18 +165,20 @@ private fun Actor(character: CharacterModel) {
 private fun AliveSpeciesIndicator(character: CharacterModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp),
+        modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp)
     ) {
         Box(
             modifier =
-                Modifier
-                    .size(10.dp)
-                    .background(if (character.alive) Color.Green else Color.Red),
+            Modifier
+                .size(10.dp)
+                .background(if (character.alive) Color.Green else Color.Red)
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            text = "${stringResource(if (character.alive) R.string.alive else R.string.dead)} - ${character.species}",
-            color = LocalColorScheme.current.textColor,
+            text = "${stringResource(
+                if (character.alive) R.string.alive else R.string.dead
+            )} - ${character.species}",
+            color = LocalColorScheme.current.textColor
         )
     }
 }
@@ -187,7 +187,7 @@ private fun AliveSpeciesIndicator(character: CharacterModel) {
 @PreviewFontScaleCustom
 @Composable
 fun DetailScreenContentPreview(
-    @PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterModel>,
+    @PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         DetailScreenComponent(characters.first())

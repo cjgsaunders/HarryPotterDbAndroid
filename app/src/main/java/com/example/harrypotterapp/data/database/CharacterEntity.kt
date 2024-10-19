@@ -16,18 +16,17 @@ data class CharacterEntity(
     val image: String,
     val alive: Boolean,
     val species: String,
-    val houseNameLabel: String,
+    val houseNameLabel: String
 )
 
-fun CharacterEntity.toDomainModel() =
-    CharacterModel(
-        id = id,
-        characterName = characterName,
-        actor = actor,
-        alive = alive,
-        houseNameLabel = houseNameLabel,
-        dateOfBirth = dateOfBirth,
-        image = image,
-        species = species,
-        houseColour = houseColour?.let { Color(android.graphics.Color.parseColor(houseColour)) },
-    )
+fun CharacterEntity.toDomainModel() = CharacterModel(
+    id = id,
+    characterName = characterName,
+    actor = actor,
+    alive = alive,
+    houseNameLabel = houseNameLabel,
+    dateOfBirth = dateOfBirth,
+    image = image,
+    species = species,
+    houseColour = houseColour?.let { Color(android.graphics.Color.parseColor(houseColour)) }
+)

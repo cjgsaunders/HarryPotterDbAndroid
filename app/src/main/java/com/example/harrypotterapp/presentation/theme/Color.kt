@@ -52,9 +52,8 @@ object DarkMode : MyColor {
 }
 
 @Composable
-fun getColorScheme(): MyColor =
-    if (isSystemInDarkTheme()) {
-        DarkMode
-    } else {
-        LightMode
-    }
+fun getColorScheme(): MyColor = if (isSystemInDarkTheme()) {
+    DarkMode
+} else {
+    LightMode
+}

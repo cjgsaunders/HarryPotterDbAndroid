@@ -31,30 +31,27 @@ import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @Composable
-fun CharacterCard(
-    character: CharacterModel,
-    onCardClicked: (String) -> Unit,
-) {
+fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     Card(
         shape = CardDefaults.shape,
         colors =
-            CardDefaults.cardColors().copy(
-                containerColor = LocalColorScheme.current.cardBackground,
-                contentColor = LocalColorScheme.current.cardBackground,
-                disabledContentColor = LocalColorScheme.current.cardBackground,
-                disabledContainerColor = LocalColorScheme.current.cardBackground,
-            ),
+        CardDefaults.cardColors().copy(
+            containerColor = LocalColorScheme.current.cardBackground,
+            contentColor = LocalColorScheme.current.cardBackground,
+            disabledContentColor = LocalColorScheme.current.cardBackground,
+            disabledContainerColor = LocalColorScheme.current.cardBackground
+        ),
         elevation = CardDefaults.outlinedCardElevation(3.dp),
         modifier =
-            Modifier
-                .padding(
-                    bottom = 6.dp,
-                    top = 6.dp,
-                    end = 16.dp,
-                ).fillMaxWidth()
-                .clickable {
-                    onCardClicked.invoke(character.id)
-                },
+        Modifier
+            .padding(
+                bottom = 6.dp,
+                top = 6.dp,
+                end = 16.dp
+            ).fillMaxWidth()
+            .clickable {
+                onCardClicked.invoke(character.id)
+            }
     ) {
         CardTitleGradientBackground(character)
         ListScreenCardDetails(character)
@@ -65,30 +62,30 @@ fun CharacterCard(
 fun CardTitleGradientBackground(character: CharacterModel) {
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .background(
-                    brush =
-                        Brush.verticalGradient(
-                            colors =
-                                listOf(
-                                    character.houseColour ?: LocalColorScheme.current.noHouseStartGradient,
-                                    LocalColorScheme.current.cardBackground,
-                                ),
-                            startY = 0f,
-                            endY = Float.POSITIVE_INFINITY,
-                        ),
-                ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        Modifier
+            .fillMaxWidth()
+            .background(
+                brush =
+                Brush.verticalGradient(
+                    colors =
+                    listOf(
+                        character.houseColour ?: LocalColorScheme.current.noHouseStartGradient,
+                        LocalColorScheme.current.cardBackground
+                    ),
+                    startY = 0f,
+                    endY = Float.POSITIVE_INFINITY
+                )
+            ),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = character.characterName,
             color = LocalColorScheme.current.textColor,
             style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
             modifier =
-                Modifier
-                    .padding(bottom = 20.dp, top = 20.dp, start = 10.dp, end = 10.dp),
-            textAlign = TextAlign.Center,
+            Modifier
+                .padding(bottom = 20.dp, top = 20.dp, start = 10.dp, end = 10.dp),
+            textAlign = TextAlign.Center
         )
     }
 }
@@ -99,7 +96,7 @@ fun ListScreenCardDetails(character: CharacterModel) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(LocalColorScheme.current.cardBackground),
+            .background(LocalColorScheme.current.cardBackground)
     ) {
         FlowRow {
             Text(
@@ -107,17 +104,17 @@ fun ListScreenCardDetails(character: CharacterModel) {
                 text = "Played by: ",
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
-                    Modifier
-                        .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
-                        .widthIn(min = 100.dp),
+                Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
+                    .widthIn(min = 100.dp)
             )
             Text(
                 color = LocalColorScheme.current.textColor,
                 text = character.actor,
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
-                    Modifier
-                        .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp),
+                Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp)
             )
         }
         FlowRow {
@@ -126,17 +123,17 @@ fun ListScreenCardDetails(character: CharacterModel) {
                 text = "Species:",
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
-                    Modifier
-                        .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
-                        .widthIn(min = 100.dp),
+                Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
+                    .widthIn(min = 100.dp)
             )
             Text(
                 color = LocalColorScheme.current.textColor,
                 text = character.species,
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
-                    Modifier
-                        .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp),
+                Modifier
+                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp)
             )
         }
     }
@@ -147,7 +144,7 @@ fun ListScreenCardDetails(character: CharacterModel) {
 @Composable
 fun CharacterCardPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>,
+    characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         CharacterCard(characters.first()) {}

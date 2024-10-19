@@ -28,34 +28,30 @@ import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @Composable
-fun SearchComponent(
-    onSearchTextChange: (String) -> Unit,
-    size: Int,
-    searchText: String,
-) {
+fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int, searchText: String) {
     val searchTextState = remember { mutableStateOf(searchText) }
 
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .shadow(4.dp)
-                .zIndex(1f)
-                .background(LocalColorScheme.current.searchBoxBackground),
+        Modifier
+            .fillMaxWidth()
+            .shadow(4.dp)
+            .zIndex(1f)
+            .background(LocalColorScheme.current.searchBoxBackground)
     ) {
         TextField(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .background(LocalColorScheme.current.searchBoxBackground),
+            Modifier
+                .fillMaxWidth()
+                .background(LocalColorScheme.current.searchBoxBackground),
             colors =
-                TextFieldDefaults.colors().copy(
-                    unfocusedContainerColor = LocalColorScheme.current.searchBoxBackground,
-                    focusedContainerColor = LocalColorScheme.current.searchBoxBackground,
-                    focusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
-                    unfocusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
-                    focusedIndicatorColor = LocalColorScheme.current.topAppBarColor,
-                ),
+            TextFieldDefaults.colors().copy(
+                unfocusedContainerColor = LocalColorScheme.current.searchBoxBackground,
+                focusedContainerColor = LocalColorScheme.current.searchBoxBackground,
+                focusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
+                unfocusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
+                focusedIndicatorColor = LocalColorScheme.current.topAppBarColor
+            ),
             maxLines = 1,
             textStyle = TextStyle(color = LocalColorScheme.current.textColor),
             value = searchTextState.value,
@@ -63,12 +59,12 @@ fun SearchComponent(
                 searchTextState.value = updatedText
                 onSearchTextChange.invoke(updatedText)
             },
-            placeholder = { Text(stringResource(R.string.search_placeholder)) },
+            placeholder = { Text(stringResource(R.string.search_placeholder)) }
         )
         Text(
             modifier = Modifier.padding(start = 10.dp),
             color = LocalColorScheme.current.textColor,
-            text = "${stringResource(R.string.results)} $size",
+            text = "${stringResource(R.string.results)} $size"
         )
     }
 }
@@ -78,7 +74,7 @@ fun SearchComponent(
 @Composable
 fun SearchComponentWithTextPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>,
+    characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         SearchComponent({}, 10, "test")
@@ -90,7 +86,7 @@ fun SearchComponentWithTextPreview(
 @Composable
 fun SearchComponentEmptyPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>,
+    characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         SearchComponent({}, 1000, "")

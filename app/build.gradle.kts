@@ -3,10 +3,10 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt.android)
     alias(libs.plugins.screenshot)
-    // alias(libs.plugins.hilt.android)
+    alias(libs.plugins.ktlint.gradle)
 }
 
 android {
@@ -39,7 +39,7 @@ android {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
+                "proguard-rules.pro"
             )
         }
     }
@@ -53,6 +53,10 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+ktlint {
+    android = true
 }
 
 dependencies {

@@ -11,5 +11,5 @@ data class CharacterDto(
     val dateOfBirth: String?,
     val image: String,
     val alive: Boolean,
-    val species: String,
+    val species: String
 )

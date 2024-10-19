@@ -10,11 +10,11 @@ import com.example.harrypotterapp.domain.Resource
 @Composable
 fun DetailScreenContent(
     detailScreenViewModel: DetailScreenViewModel = hiltViewModel(),
-    characterId: String?,
+    characterId: String?
 ) {
     val state by detailScreenViewModel
         .singleCharacterScreenStat1e(
-            characterId ?: "",
+            characterId ?: ""
         ).collectAsStateWithLifecycle(initialValue = Resource.Loading)
 
     when (val data = state) {

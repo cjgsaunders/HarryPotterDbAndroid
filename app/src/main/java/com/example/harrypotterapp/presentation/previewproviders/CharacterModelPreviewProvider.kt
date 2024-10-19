@@ -18,7 +18,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         image = "",
                         dateOfBirth = "31-07-1980",
                         houseColour = Color(0xFF740001),
-                        species = "human",
+                        species = "human"
                     ),
                     CharacterModel(
                         characterName = "Cedric Diggory",
@@ -29,7 +29,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         image = "",
                         dateOfBirth = "31-07-1980",
                         houseColour = Color(0xFFeeb939),
-                        species = "human",
+                        species = "human"
                     ),
                     CharacterModel(
                         characterName = "Cho Chang",
@@ -40,7 +40,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         image = "",
                         dateOfBirth = "31-07-1980",
                         houseColour = Color(0xFF0c1a40),
-                        species = "human",
+                        species = "human"
                     ),
                     CharacterModel(
                         characterName = "Severus Snape",
@@ -51,7 +51,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         image = "",
                         dateOfBirth = "31-07-1980",
                         houseColour = Color(0xFF1a472a),
-                        species = "human",
+                        species = "human"
                     ),
                     CharacterModel(
                         characterName = "Severus Snape",
@@ -62,8 +62,8 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         image = "",
                         dateOfBirth = "31-07-1980",
                         houseColour = Color(0x00000000),
-                        species = "human",
-                    ),
-                ),
+                        species = "human"
+                    )
+                )
             )
 }
