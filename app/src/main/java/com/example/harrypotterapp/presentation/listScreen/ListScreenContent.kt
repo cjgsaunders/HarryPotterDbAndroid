@@ -12,7 +12,7 @@ import com.example.harrypotterapp.domain.Resource
 @Composable
 fun ListScreenContent(
     listScreenViewModel: ListScreenViewModel = hiltViewModel(),
-    onCardClicked: (String) -> Unit
+    onCardClicked: (String) -> Unit,
 ) {
     val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle(initialValue = Resource.Loading)
     val toastError by listScreenViewModel.toastMessage.collectAsStateWithLifecycle()
@@ -21,17 +21,15 @@ fun ListScreenContent(
     when (val data = state) {
         is Resource.Loading -> {
             Text("loading")
-
         }
 
         is Resource.Success -> {
             ListScreenComponent(
-
                 data.data,
                 listScreenViewModel::onSearchTextChange,
                 listScreenViewModel::triggerRefresh,
                 onCardClicked,
-                searchText
+                searchText,
             )
         }
 

@@ -3,13 +3,9 @@ package com.example.harrypotterapp.data.database
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.example.harrypotterapp.data.CharacterDto
-import com.example.harrypotterapp.domain.Resource
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CharacterDao {
-
     @Upsert
     suspend fun upsertCharacter(characterModel: CharacterEntity)
 

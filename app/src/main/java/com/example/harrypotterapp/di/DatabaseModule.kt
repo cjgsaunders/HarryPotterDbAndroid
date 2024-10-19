@@ -14,19 +14,19 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object DatabaseModule {
-
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext context: Context): CharacterDatabase {
-        return Room.databaseBuilder(
-            context.applicationContext,
-            CharacterDatabase::class.java,
-            "hogwarts_db1"
-        ).fallbackToDestructiveMigration().build()
-    }
+    fun provideDatabase(
+        @ApplicationContext context: Context,
+    ): CharacterDatabase =
+        Room
+            .databaseBuilder(
+                context.applicationContext,
+                CharacterDatabase::class.java,
+                "hogwarts_db1",
+            ).fallbackToDestructiveMigration()
+            .build()
 
     @Provides
-    fun provideCharacterDao(database: CharacterDatabase): CharacterDao {
-        return database.dao()
-    }
+    fun provideCharacterDao(database: CharacterDatabase): CharacterDao = database.dao()
 }

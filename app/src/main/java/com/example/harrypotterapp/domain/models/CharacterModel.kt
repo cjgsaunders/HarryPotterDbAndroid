@@ -14,23 +14,26 @@ data class CharacterModel(
     val image: String,
     val alive: Boolean,
     val species: String,
-    val houseNameLabel: String
+    val houseNameLabel: String,
 ) : Searchable {
-    override fun searchCharacterInfo(searchString: String): Boolean {
-        return listOf(
-            characterName, actor, species, houseNameLabel
+    override fun searchCharacterInfo(searchString: String): Boolean =
+        listOf(
+            characterName,
+            actor,
+            species,
+            houseNameLabel,
         ).any { it.contains(searchString, ignoreCase = true) }
-    }
 }
 
-fun CharacterModel.toDb() = CharacterEntity(
-    id = id,
-    characterName = characterName,
-    actor = actor,
-    alive = alive,
-    houseNameLabel = houseNameLabel,
-    dateOfBirth = dateOfBirth,
-    image = image,
-    species = species,
-    houseColour = houseColour.toHexString()
-)
+fun CharacterModel.toDb() =
+    CharacterEntity(
+        id = id,
+        characterName = characterName,
+        actor = actor,
+        alive = alive,
+        houseNameLabel = houseNameLabel,
+        dateOfBirth = dateOfBirth,
+        image = image,
+        species = species,
+        houseColour = houseColour.toHexString(),
+    )

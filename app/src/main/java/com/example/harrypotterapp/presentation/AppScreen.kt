@@ -32,43 +32,42 @@ import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HarryPotterDbApp(
-    navController: NavHostController = rememberNavController()
-) {
+fun HarryPotterDbApp(navController: NavHostController = rememberNavController()) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = AppScreen.valueOf(
-        backStackEntry?.destination?.route?.substringBefore("/") ?: AppScreen.Start.name
-    )
-    val scrollBehavior = if (currentScreen == AppScreen.Start) {
-        TopAppBarDefaults.enterAlwaysScrollBehavior()
-    } else {
-        TopAppBarDefaults.pinnedScrollBehavior()
-    }
-
+    val currentScreen =
+        AppScreen.valueOf(
+            backStackEntry?.destination?.route?.substringBefore("/") ?: AppScreen.Start.name,
+        )
+    val scrollBehavior =
+        if (currentScreen == AppScreen.Start) {
+            TopAppBarDefaults.enterAlwaysScrollBehavior()
+        } else {
+            TopAppBarDefaults.pinnedScrollBehavior()
+        }
 
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
-
-
-        Scaffold( modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+        Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
             GlobalTopAppBar(
-                scrollBehavior = scrollBehavior, currentScreen = currentScreen,
+                scrollBehavior = scrollBehavior,
+                currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
                 navigateUp = { navController.navigateUp() },
-                )
+            )
         }) { innerPadding ->
 
             NavHost(
                 navController = navController,
                 startDestination = AppScreen.Start.name,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding),
             ) {
                 composable(route = AppScreen.Start.name) {
                     ListScreenContent(
                         onCardClicked = { characterId ->
                             navController.navigate("${AppScreen.DetailScreen.name}/$characterId")
-                        }
+                        },
                     )
                 }
                 composable(route = "${AppScreen.DetailScreen.name}/{characterId}") { backStackEntry ->
@@ -87,15 +86,16 @@ fun GlobalTopAppBar(
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
     modifier: Modifier = Modifier,
-    scrollBehavior: TopAppBarScrollBehavior
+    scrollBehavior: TopAppBarScrollBehavior,
 ) {
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = LocalColorScheme.current.topAppBarColor,
-            titleContentColor = LocalColorScheme.current.textColor,
-            scrolledContainerColor = LocalColorScheme.current.topAppBarColor
-        ),
+        colors =
+            TopAppBarDefaults.mediumTopAppBarColors(
+                containerColor = LocalColorScheme.current.topAppBarColor,
+                titleContentColor = LocalColorScheme.current.textColor,
+                scrolledContainerColor = LocalColorScheme.current.topAppBarColor,
+            ),
         modifier = modifier,
         navigationIcon = {
             if (canNavigateBack) {
@@ -103,16 +103,18 @@ fun GlobalTopAppBar(
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(R.string.back_button),
-                        tint = LocalColorScheme.current.textColor
+                        tint = LocalColorScheme.current.textColor,
                     )
                 }
             }
         },
-        scrollBehavior = scrollBehavior
+        scrollBehavior = scrollBehavior,
     )
 }
 
-enum class AppScreen(@StringRes val title: Int) {
+enum class AppScreen(
+    @StringRes val title: Int,
+) {
     Start(title = R.string.app_name),
-    DetailScreen(title = R.string.detailed_view)
+    DetailScreen(title = R.string.detailed_view),
 }
