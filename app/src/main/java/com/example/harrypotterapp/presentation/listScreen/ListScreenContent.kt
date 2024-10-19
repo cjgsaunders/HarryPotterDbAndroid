@@ -15,6 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -51,11 +52,25 @@ fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
 
     Column(
         modifier = Modifier
-            .fillMaxWidth().shadow(4.dp).zIndex(1f).background(LocalColorScheme.current.surfaceBackground)
+            .fillMaxWidth()
+            .shadow(4.dp)
+            .zIndex(1f)
+            .background(LocalColorScheme.current.searchBoxBackground)
     ) {
+
+
         TextField(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().background(LocalColorScheme.current.searchBoxBackground),
+            colors = TextFieldDefaults.colors().copy(
+                unfocusedContainerColor = LocalColorScheme.current.searchBoxBackground,
+                focusedContainerColor = LocalColorScheme.current.searchBoxBackground,
+                focusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
+                unfocusedPlaceholderColor = LocalColorScheme.current.searchBoxPlaceholderText,
+                focusedIndicatorColor = LocalColorScheme.current.topAppBarColor
+            ),
+
             maxLines = 1,
+            textStyle = TextStyle(color = LocalColorScheme.current.textColor),
             value = searchTextState.value,
             onValueChange = { updatedText ->
                 searchTextState.value = updatedText
@@ -63,7 +78,11 @@ fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int) {
             },
             placeholder = { Text(stringResource(R.string.search_placeholder)) }
         )
-        Text(modifier = Modifier.padding(start = 10.dp),color = LocalColorScheme.current.textColor, text = "${stringResource(R.string.results)} $size")
+        Text(
+            modifier = Modifier.padding(start = 10.dp),
+            color = LocalColorScheme.current.textColor,
+            text = "${stringResource(R.string.results)} $size",
+        )
     }
 }
 
@@ -72,19 +91,25 @@ fun ListScreenContent(
     characters: List<CharacterModel>,
     onSearchTextChange: (String) -> Unit,
     refresh: () -> Unit,
-    onCardClicked: (String) -> Unit
+    onCardClicked: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column(modifier = Modifier
-        .padding(horizontal = 0.dp)
-        .background(
-            brush = Brush.linearGradient(
-                colors = listOf(LocalColorScheme.current.startBackground, LocalColorScheme.current.endBackground),
-                start = Offset(0f, Float.POSITIVE_INFINITY),
-                end = Offset(Float.POSITIVE_INFINITY, 0f)
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 0.dp)
+            .background(
+                brush = Brush.linearGradient(
+                    colors = listOf(
+                        LocalColorScheme.current.startBackground,
+                        LocalColorScheme.current.endBackground
+                    ),
+                    start = Offset(0f, Float.POSITIVE_INFINITY),
+                    end = Offset(Float.POSITIVE_INFINITY, 0f)
+                )
             )
-        )) {
+    ) {
         SearchComponent(onSearchTextChange, characters.size)
-        GridListComponent(characters, refresh, onCardClicked)
+        GridListComponent(characters, refresh, onCardClicked, modifier)
     }
 }
 
@@ -93,7 +118,8 @@ fun ListScreenContent(
 private fun GridListComponent(
     characters: List<CharacterModel>,
     refresh: () -> Unit,
-    onCardClicked: (String) -> Unit
+    onCardClicked: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
@@ -110,10 +136,10 @@ private fun GridListComponent(
                 isRefreshing = false
 
             }
-        }){
+        }) {
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 400.dp),
-            modifier = Modifier.fillMaxSize(),
+            modifier = modifier.fillMaxSize(),
             state = rememberLazyGridState()
         ) {
             items(characters) { character ->
@@ -127,6 +153,12 @@ private fun GridListComponent(
 fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
     Card(
         shape = CardDefaults.shape,
+        colors = CardDefaults.cardColors().copy(
+            containerColor = LocalColorScheme.current.cardBackground,
+            contentColor = LocalColorScheme.current.cardBackground,
+            disabledContentColor = LocalColorScheme.current.cardBackground,
+            disabledContainerColor = LocalColorScheme.current.cardBackground
+        ),
         elevation = CardDefaults.outlinedCardElevation(3.dp),
         modifier = Modifier
             .padding(
@@ -142,7 +174,10 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
                 .fillMaxWidth()
                 .background(
                     brush = Brush.verticalGradient(
-                        colors = listOf(character.houseColour, LocalColorScheme.current.cardBackground),
+                        colors = listOf(
+                            character.houseColour ?: LocalColorScheme.current.noHouseStartGradient,
+                            LocalColorScheme.current.cardBackground
+                        ),
                         startY = 0f,
                         endY = Float.POSITIVE_INFINITY
                     )
@@ -152,7 +187,7 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
             Text(
                 character.characterName,
                 color = LocalColorScheme.current.textColor,
-                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold ),
+                style = TextStyle(fontSize = 18.sp, fontWeight = FontWeight.Bold),
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 20.dp, top = 4.dp, start = 10.dp, end = 10.dp)
@@ -164,30 +199,31 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
             Modifier
 
                 .fillMaxWidth()
-                .background(LocalColorScheme.current.cardBackground)) {
-                Text(
-                    color = LocalColorScheme.current.textColor,
-                    text = "Played by: ${character.actor}",
-                    style = TextStyle(fontSize = 12.sp),
-                    modifier = Modifier.padding(start = 20.dp, bottom = 10.dp, top = 20.dp, end = 20.dp)
-                )
-                Text(
-                    color = LocalColorScheme.current.textColor,
-                    text = "Species: ${character.species}",
-                    style = TextStyle(fontSize = 12.sp),
-                    modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp, end = 20.dp)
-                )
-            }
-        } }
+                .background(LocalColorScheme.current.cardBackground)
+        ) {
+            Text(
+                color = LocalColorScheme.current.textColor,
+                text = "Played by: ${character.actor}",
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.padding(start = 20.dp, bottom = 10.dp, top = 20.dp, end = 20.dp)
+            )
+            Text(
+                color = LocalColorScheme.current.textColor,
+                text = "Species: ${character.species}",
+                style = TextStyle(fontSize = 12.sp),
+                modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp, end = 20.dp)
+            )
+        }
+    }
+}
 
-@PreviewLightDark()
+@PreviewLightDark
 @Composable
 fun CharacterCardPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
     characters: List<CharacterModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
-        // Your UI components here
         CharacterCard(characters.first(), {})
     }
 
@@ -199,10 +235,10 @@ fun CharacterCardPreview(
 fun SuccessComponentPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
     characters: List<CharacterModel>
-) {CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
-    // Your UI components here
-    ListScreenContent(characters, {}, {}, {})
-}
+) {
+    CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
+        ListScreenContent(characters, {}, {}, {})
+    }
 
 
 }

@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -27,6 +28,7 @@ fun ListScreenComponent(
 
         is Resource.Success -> {
             ListScreenContent(
+
                 data.data,
                 listScreenViewModel::onSearchTextChange,
                 listScreenViewModel::triggerRefresh,

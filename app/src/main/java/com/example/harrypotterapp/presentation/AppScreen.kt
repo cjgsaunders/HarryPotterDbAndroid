@@ -8,15 +8,17 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -29,6 +31,7 @@ import com.example.harrypotterapp.presentation.listScreen.ListScreenComponent
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HarryPotterDbApp(
     navController: NavHostController = rememberNavController()
@@ -37,15 +40,22 @@ fun HarryPotterDbApp(
     val currentScreen = AppScreen.valueOf(
         backStackEntry?.destination?.route?.substringBefore("/") ?: AppScreen.Start.name
     )
+    val scrollBehavior = if (currentScreen == AppScreen.Start) {
+        TopAppBarDefaults.enterAlwaysScrollBehavior()
+    } else {
+        TopAppBarDefaults.pinnedScrollBehavior()
+    }
 
 
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
 
 
-        Scaffold(topBar = {
-            GlobalTopAppBar(currentScreen = currentScreen,
+        Scaffold( modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+            GlobalTopAppBar(
+                scrollBehavior = scrollBehavior, currentScreen = currentScreen,
                 canNavigateBack = navController.previousBackStackEntry != null,
-                navigateUp = { navController.navigateUp() })
+                navigateUp = { navController.navigateUp() },
+                )
         }) { innerPadding ->
 
             NavHost(
@@ -77,11 +87,15 @@ fun GlobalTopAppBar(
     currentScreen: AppScreen,
     canNavigateBack: Boolean,
     navigateUp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    scrollBehavior: TopAppBarScrollBehavior
 ) {
-    TopAppBar(title = { Text(stringResource(currentScreen.title)) },
+    TopAppBar(
+        title = { Text(stringResource(currentScreen.title)) },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer
+            containerColor = LocalColorScheme.current.topAppBarColor,
+            titleContentColor = LocalColorScheme.current.textColor,
+            scrolledContainerColor = LocalColorScheme.current.topAppBarColor
         ),
         modifier = modifier,
         navigationIcon = {
@@ -89,11 +103,13 @@ fun GlobalTopAppBar(
                 IconButton(onClick = navigateUp) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = stringResource(R.string.back_button)
+                        contentDescription = stringResource(R.string.back_button),
+                        tint = LocalColorScheme.current.textColor
                     )
                 }
             }
-        }
+        },
+        scrollBehavior = scrollBehavior
     )
 }
 

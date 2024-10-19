@@ -13,12 +13,12 @@ fun mapHouseToColor(house: String): HouseColor {
     }
 }
 
-enum class HouseColor(val hexColor: Color) {
+enum class HouseColor(val hexColor: Color?) {
     GRYFFINDOR(Color(0xFF740001)),
     SLYTHERIN(Color(0xFF1a472a)),
     HUFFLEPUFF(Color(0xFFeeb939)),
     RAVENCLAW(Color(0xFF0c1a40)),
-    DEFAULT(Color(0x00000000))
+    DEFAULT(null)
 }
 
 enum class HouseString(val houseString: String) {
@@ -29,6 +29,8 @@ enum class HouseString(val houseString: String) {
     DEFAULT("Not in a Hogwarts house.")
 }
 
-fun Color.toHexString(): String {
-    return String.format("#%02X%02X%02X%02X", (alpha * 255).toInt(), (red * 255).toInt(), (green * 255).toInt(), (blue * 255).toInt())
+fun Color?.toHexString(): String? {
+    return this?.let {
+        String.format("#%02X%02X%02X%02X", (it.alpha * 255).toInt(), (it.red * 255).toInt(), (it.green * 255).toInt(), (it.blue * 255).toInt())
+    }
 }

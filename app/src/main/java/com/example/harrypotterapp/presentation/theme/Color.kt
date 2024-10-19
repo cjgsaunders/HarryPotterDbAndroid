@@ -24,14 +24,22 @@ interface MyColor {
     val cardBackground: Color
     val surfaceBackground: Color
     val textColor: Color
+    val searchBoxBackground: Color
+    val searchBoxPlaceholderText: Color
+    val topAppBarColor: Color
+    val noHouseStartGradient: Color
 }
 
 object LightMode : MyColor {
     override val startBackground = Color(0xFFFBEAE5)
     override val endBackground = Color(0xFFE5F5FB)
-    override val cardBackground = Color(0xFFEAE5FB)
+    override val cardBackground = Color(0xFFE8DDDD)
     override val surfaceBackground = Color(0xFF888888)
     override val textColor: Color = Color(0xFF000000)
+    override val searchBoxBackground: Color = Color(0xFFE2DEE7)
+    override val searchBoxPlaceholderText: Color = Color(0xFF3D3D3D)
+    override val topAppBarColor: Color = Color(0xFF6886FF)
+    override val noHouseStartGradient: Color = Color(0xFFF1F1F1)
 }
 
 object DarkMode : MyColor {
@@ -40,6 +48,10 @@ object DarkMode : MyColor {
     override val cardBackground = Color(0xFF484a4d)
     override val surfaceBackground = Color(0xFF282828)
     override val textColor: Color = Color(0xFFFFFFFF)
+    override val searchBoxBackground: Color = Color(0xFF6A686B)
+    override val searchBoxPlaceholderText: Color = Color(0xFFA1A1A1)
+    override val topAppBarColor: Color = Color(0xFF051A36)
+    override val noHouseStartGradient: Color = Color(0xFF000000)
 }
 
 

@@ -9,7 +9,7 @@ data class CharacterModel(
     val id: String,
     val characterName: String,
     val actor: String,
-    val houseColour: Color,
+    val houseColour: Color?,
     val dateOfBirth: String?,
     val image: String,
     val alive: Boolean,
