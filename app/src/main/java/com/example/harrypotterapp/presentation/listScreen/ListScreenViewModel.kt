@@ -32,10 +32,10 @@ open class ListScreenViewModel @Inject constructor(
     private val repository: CharacterRepository
 ) : ViewModel() {
 
-    //private var showLoadingScreen = true
+    private var showLoadingScreen = true
     private var showErrorScreen = true
     fun triggerRefresh() {
-        //showLoadingScreen = false
+        showLoadingScreen = false
         viewModelScope.launch {
             triggerChannel.send(Unit)
         }
@@ -76,7 +76,10 @@ open class ListScreenViewModel @Inject constructor(
                 is Resource.Success -> showErrorScreen = false
                 is Resource.Loading -> {}
             }
-        }.filterNot { !showErrorScreen && it == Resource.Error("") }.flowOn(Dispatchers.IO)
+        }
+            .filterNot { !showErrorScreen && it == Resource.Error("") }
+            .filterNot { !showLoadingScreen && it == Resource.Loading }
+            .flowOn(Dispatchers.IO)
 
     // Search filtered flow
     // Hot flow to emit the current screen before a network request.

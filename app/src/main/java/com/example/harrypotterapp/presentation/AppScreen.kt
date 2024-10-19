@@ -13,7 +13,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
-import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -26,8 +25,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.harrypotterapp.R
-import com.example.harrypotterapp.presentation.detailScreen.DetailScreenComponent
-import com.example.harrypotterapp.presentation.listScreen.ListScreenComponent
+import com.example.harrypotterapp.presentation.detailScreen.DetailScreenContent
+import com.example.harrypotterapp.presentation.listScreen.ListScreenContent
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
@@ -66,7 +65,7 @@ fun HarryPotterDbApp(
                     .padding(innerPadding)
             ) {
                 composable(route = AppScreen.Start.name) {
-                    ListScreenComponent(
+                    ListScreenContent(
                         onCardClicked = { characterId ->
                             navController.navigate("${AppScreen.DetailScreen.name}/$characterId")
                         }
@@ -74,7 +73,7 @@ fun HarryPotterDbApp(
                 }
                 composable(route = "${AppScreen.DetailScreen.name}/{characterId}") { backStackEntry ->
                     val characterId = backStackEntry.arguments?.getString("characterId")
-                    DetailScreenComponent(characterId = characterId)
+                    DetailScreenContent(characterId = characterId)
                 }
             }
         }

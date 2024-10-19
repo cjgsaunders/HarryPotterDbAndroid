@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <style name="Theme.HarryPotterApp" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
+        <!-- Add any additional attributes you need here -->
     </style>
+
+    <style name="Theme.AppSplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@drawable/splash</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
+
+    </style>
+
+
+
+
 </resources>
