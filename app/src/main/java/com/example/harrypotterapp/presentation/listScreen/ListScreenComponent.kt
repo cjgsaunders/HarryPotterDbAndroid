@@ -69,7 +69,7 @@ private fun GridListComponent(
         }
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(minSize = 400.dp),
+            columns = GridCells.Adaptive(minSize = 300.dp),
             modifier = modifier.fillMaxSize(),
             state = rememberLazyGridState()
         ) {
