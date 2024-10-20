@@ -1,5 +1,6 @@
 package com.example.harrypotterapp.presentation.detailScreen
 
+import FullScreenLoading
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -24,7 +25,7 @@ fun DetailScreenContent(detailScreenViewModel: DetailScreenViewModel = hiltViewM
         }
 
         is Resource.Loading -> {
-            Text("loading")
+            FullScreenLoading()
         }
     }
 }

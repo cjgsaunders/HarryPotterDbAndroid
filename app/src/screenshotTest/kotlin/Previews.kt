@@ -1,5 +1,9 @@
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.example.harrypotterapp.domain.CharacterDomainModel
@@ -41,5 +45,45 @@ fun SuccessComponentPreview(
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         ListScreenComponent(characters, {}, {}, {}, "")
+    }
+}
+
+@PreviewLightDark
+@PreviewFontScaleCustom
+@Composable
+fun FullScreenErrorPreview() {
+    CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
+        Column(
+            modifier = Modifier.background(
+                brush =
+                Brush.linearGradient(
+                    colors =
+                    listOf(
+                        LocalColorScheme.current.startBackground,
+                        LocalColorScheme.current.endBackground
+                    )
+                )
+            )
+        ) { FullScreenError("These are not the droids you are looking for...") }
+    }
+}
+
+@PreviewLightDark
+@PreviewFontScaleCustom
+@Composable
+fun FullScreenLoadingPreview() {
+    CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
+        Column(
+            modifier = Modifier.background(
+                brush =
+                Brush.linearGradient(
+                    colors =
+                    listOf(
+                        LocalColorScheme.current.startBackground,
+                        LocalColorScheme.current.endBackground
+                    )
+                )
+            )
+        ) { FullScreenLoading() }
     }
 }

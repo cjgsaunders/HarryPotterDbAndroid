@@ -38,7 +38,14 @@ import com.example.harrypotterapp.presentation.listScreen.CardTitleGradientBackg
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
+import com.example.harrypotterapp.presentation.theme.card_vertical_padding
+import com.example.harrypotterapp.presentation.theme.data_bottom_padding_20
+import com.example.harrypotterapp.presentation.theme.data_horizontal_padding
+import com.example.harrypotterapp.presentation.theme.data_title_min_width
+import com.example.harrypotterapp.presentation.theme.data_top_padding
+import com.example.harrypotterapp.presentation.theme.data_vertical_padding
 import com.example.harrypotterapp.presentation.theme.getColorScheme
+import com.example.harrypotterapp.presentation.theme.screen_margin
 
 @Composable
 fun DetailScreenComponent(character: CharacterDomainModel) {
@@ -59,10 +66,10 @@ fun DetailScreenComponent(character: CharacterDomainModel) {
             modifier =
             Modifier
                 .padding(
-                    start = 16.dp,
-                    bottom = 6.dp,
-                    top = 6.dp,
-                    end = 16.dp
+                    start = screen_margin,
+                    bottom = card_vertical_padding,
+                    top = card_vertical_padding,
+                    end = screen_margin
                 ).fillMaxWidth()
         ) {
             CardTitleGradientBackground(character)
@@ -106,7 +113,7 @@ private fun DateOfBirth(character: CharacterDomainModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
+                .padding(start = data_horizontal_padding, bottom = data_vertical_padding).widthIn(data_title_min_width)
         )
         Text(
             character.dateOfBirth ?: stringResource(R.string.unknown),
@@ -114,7 +121,7 @@ private fun DateOfBirth(character: CharacterDomainModel) {
             fontSize = 12.sp,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = data_horizontal_padding, bottom = data_vertical_padding)
         )
     }
 }
@@ -128,14 +135,14 @@ private fun House(character: CharacterDomainModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
+                .padding(start = data_horizontal_padding, bottom = 10.dp).widthIn(100.dp)
         )
         Text(
             character.houseNameLabel,
             color = LocalColorScheme.current.textColor,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = data_horizontal_padding, bottom = data_vertical_padding)
         )
     }
 }
@@ -149,14 +156,14 @@ private fun Actor(character: CharacterDomainModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
+                .padding(start = data_horizontal_padding, bottom = data_vertical_padding).widthIn(data_title_min_width)
         )
         Text(
             character.actor,
             color = LocalColorScheme.current.textColor,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = data_horizontal_padding, bottom = data_vertical_padding)
         )
     }
 }
@@ -165,7 +172,7 @@ private fun Actor(character: CharacterDomainModel) {
 private fun AliveSpeciesIndicator(character: CharacterDomainModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp)
+        modifier = Modifier.padding(start = data_horizontal_padding, bottom = data_bottom_padding_20, top = data_top_padding)
     ) {
         Box(
             modifier =

@@ -27,7 +27,13 @@ import com.example.harrypotterapp.domain.CharacterDomainModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
+import com.example.harrypotterapp.presentation.theme.card_elevation
+import com.example.harrypotterapp.presentation.theme.card_vertical_padding
+import com.example.harrypotterapp.presentation.theme.data_horizontal_padding
+import com.example.harrypotterapp.presentation.theme.data_title_min_width
+import com.example.harrypotterapp.presentation.theme.data_vertical_padding
 import com.example.harrypotterapp.presentation.theme.getColorScheme
+import com.example.harrypotterapp.presentation.theme.screen_margin
 
 @Composable
 fun CharacterCard(character: CharacterDomainModel, onCardClicked: (String) -> Unit) {
@@ -40,13 +46,13 @@ fun CharacterCard(character: CharacterDomainModel, onCardClicked: (String) -> Un
             disabledContentColor = LocalColorScheme.current.cardBackground,
             disabledContainerColor = LocalColorScheme.current.cardBackground
         ),
-        elevation = CardDefaults.outlinedCardElevation(3.dp),
+        elevation = CardDefaults.outlinedCardElevation(card_elevation),
         modifier =
         Modifier
             .padding(
-                bottom = 6.dp,
-                top = 6.dp,
-                end = 16.dp
+                bottom = card_vertical_padding,
+                top = card_vertical_padding,
+                end = screen_margin
             ).fillMaxWidth()
             .clickable {
                 onCardClicked.invoke(character.id)
@@ -104,7 +110,7 @@ fun ListScreenCardDetails(character: CharacterDomainModel) {
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
                 Modifier
-                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
+                    .padding(start = data_horizontal_padding, bottom = data_vertical_padding, top = data_vertical_padding)
                     .widthIn(min = 100.dp)
             )
             Text(
@@ -113,7 +119,12 @@ fun ListScreenCardDetails(character: CharacterDomainModel) {
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
                 Modifier
-                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp)
+                    .padding(
+                        start = data_horizontal_padding,
+                        bottom = data_vertical_padding,
+                        top = data_vertical_padding,
+                        end = data_horizontal_padding
+                    )
             )
         }
         FlowRow {
@@ -123,8 +134,8 @@ fun ListScreenCardDetails(character: CharacterDomainModel) {
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
                 Modifier
-                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp)
-                    .widthIn(min = 100.dp)
+                    .padding(start = data_horizontal_padding, bottom = data_vertical_padding, top = data_vertical_padding)
+                    .widthIn(min = data_title_min_width)
             )
             Text(
                 color = LocalColorScheme.current.textColor,
@@ -132,7 +143,12 @@ fun ListScreenCardDetails(character: CharacterDomainModel) {
                 style = TextStyle(fontSize = 12.sp),
                 modifier =
                 Modifier
-                    .padding(start = 20.dp, bottom = 10.dp, top = 10.dp, end = 20.dp)
+                    .padding(
+                        start = data_horizontal_padding,
+                        bottom = data_vertical_padding,
+                        top = data_vertical_padding,
+                        end = data_horizontal_padding
+                    )
             )
         }
     }

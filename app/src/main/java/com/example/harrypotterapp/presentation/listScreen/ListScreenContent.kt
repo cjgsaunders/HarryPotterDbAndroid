@@ -1,5 +1,6 @@
 package com.example.harrypotterapp.presentation.listScreen
 
+import FullScreenLoading
 import android.widget.Toast
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -21,7 +22,7 @@ fun ListScreenContent(listScreenViewModel: ListScreenViewModel = hiltViewModel()
 
     when (val data = state) {
         is Resource.Loading -> {
-            Text("loading")
+            FullScreenLoading()
         }
 
         is Resource.Success -> {
