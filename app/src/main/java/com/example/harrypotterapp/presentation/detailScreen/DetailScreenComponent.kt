@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -106,7 +107,7 @@ private fun DateOfBirth(character: CharacterModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
         )
         Text(
             character.dateOfBirth ?: stringResource(R.string.unknown),
@@ -128,7 +129,7 @@ private fun House(character: CharacterModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
         )
         Text(
             character.houseNameLabel,
@@ -149,7 +150,7 @@ private fun Actor(character: CharacterModel) {
             color = LocalColorScheme.current.dataSubtitle,
             modifier =
             Modifier
-                .padding(start = 20.dp, bottom = 10.dp)
+                .padding(start = 20.dp, bottom = 10.dp).widthIn(100.dp)
         )
         Text(
             character.actor,
