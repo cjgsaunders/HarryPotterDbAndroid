@@ -1,5 +1,6 @@
 package com.example.harrypotterapp.data.mappers
 
+import android.util.Log
 import androidx.compose.ui.graphics.Color
 
 fun mapHouseToColor(house: String): HouseColor = when (house) {
@@ -7,7 +8,10 @@ fun mapHouseToColor(house: String): HouseColor = when (house) {
     "Slytherin" -> HouseColor.SLYTHERIN
     "Hufflepuff" -> HouseColor.HUFFLEPUFF
     "Ravenclaw" -> HouseColor.RAVENCLAW
-    else -> HouseColor.DEFAULT
+    else -> {
+        Log.i("mapHouseToColor", "not in a house: $house")
+        HouseColor.DEFAULT
+    }
 }
 
 enum class HouseColor(
@@ -18,14 +22,4 @@ enum class HouseColor(
     HUFFLEPUFF(Color(0xFFeeb939)),
     RAVENCLAW(Color(0xFF0c1a40)),
     DEFAULT(null)
-}
-
-enum class HouseString(
-    val houseString: String
-) {
-    GRYFFINDOR("A member of house Gryffindor"),
-    SLYTHERIN("A member of house Gryffindor"),
-    HUFFLEPUFF("A member of house Gryffindor"),
-    RAVENCLAW("A member of house Gryffindor"),
-    DEFAULT("Not in a Hogwarts house.")
 }
