@@ -11,7 +11,7 @@ fun CharacterEntity.toCharacterModel(): CharacterModel = CharacterModel(
     actor = actor.ifEmpty { "Unknown" },
     species = species.ifEmpty { "Unknown" }.replaceFirstChar { it.uppercase() },
     houseNameLabel = house.ifEmpty { "Not in a Hogwarts House" },
-    houseColour = mapHouseToColor(house).hexColor,
+    houseColour = house.mapHouseToColor().hexColor,
     image = image
 )
 
