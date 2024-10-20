@@ -64,12 +64,7 @@ fun ListScreenComponent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun GridListComponent(
-    characters: List<CharacterModel>,
-    refresh: () -> Unit,
-    onCardClicked: (String) -> Unit,
-    modifier: Modifier = Modifier
-) {
+private fun GridListComponent(characters: List<CharacterModel>, refresh: () -> Unit, onCardClicked: (String) -> Unit, modifier: Modifier = Modifier) {
     val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()

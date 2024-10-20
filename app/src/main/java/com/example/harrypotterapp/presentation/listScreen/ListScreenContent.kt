@@ -12,10 +12,7 @@ import com.example.harrypotterapp.R
 import com.example.harrypotterapp.domain.Resource
 
 @Composable
-fun ListScreenContent(
-    listScreenViewModel: ListScreenViewModel = hiltViewModel(),
-    onCardClicked: (String) -> Unit
-) {
+fun ListScreenContent(listScreenViewModel: ListScreenViewModel = hiltViewModel(), onCardClicked: (String) -> Unit) {
     val state by listScreenViewModel.filteredListScreenState.collectAsStateWithLifecycle(
         initialValue = Resource.Loading
     )

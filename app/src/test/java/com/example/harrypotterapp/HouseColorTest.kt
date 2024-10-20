@@ -7,11 +7,9 @@ import com.example.harrypotterapp.data.mappers.mapHouseToColor
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals
-import org.junit.Before
 import org.junit.Test
 
 class HouseColorTest {
-
 
     @Test
     fun `given a string, when map method called, return correct enum`() {

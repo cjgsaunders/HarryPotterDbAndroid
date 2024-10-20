@@ -3,7 +3,6 @@ package com.example.harrypotterapp
 import android.util.Log
 import com.example.harrypotterapp.data.mappers.toFormattedDate
 import io.mockk.every
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

@@ -1,20 +1,16 @@
 package com.example.harrypotterapp
 
 import android.util.Log
-import androidx.compose.ui.graphics.Color
 import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.data.mappers.HouseColor
 import com.example.harrypotterapp.data.mappers.mapHouseToColor
 import com.example.harrypotterapp.data.mappers.toCharacterModel
 import com.example.harrypotterapp.data.mappers.toCharacterModelList
 import com.example.harrypotterapp.data.mappers.toFormattedDate
-import com.example.harrypotterapp.domain.models.CharacterModel
 import io.mockk.every
-import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertNull
 import org.junit.Before
 import org.junit.Test
 
@@ -56,7 +52,6 @@ class CharacterEntityTest {
 
     @Test
     fun `given an entity with good data, when mapped to model, return model with good data`() {
-
         val characterModel = characterEntityGoodData.toCharacterModel()
 
         assertNotNull(characterModel)
@@ -73,7 +68,6 @@ class CharacterEntityTest {
 
     @Test
     fun `given an entity with missing fields, when mapped to model, return model with correct placeholders`() {
-
         val characterModel = characterEntityEmptyData.toCharacterModel()
 
         assertNotNull(characterModel)

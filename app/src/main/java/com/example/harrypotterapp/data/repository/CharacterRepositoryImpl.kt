@@ -52,17 +52,25 @@ constructor(
     )
 
     override suspend fun searchCharacters(searchText: String) = flow {
-        emit(
-            Resource.Success(
-                dao.searchCharacters("%$searchText%").toCharacterModelList()
+        try {
+            emit(
+                Resource.Success(
+                    dao.searchCharacters(searchText).toCharacterModelList()
+                )
             )
-        )
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "unknown error"))
+        }
     }.flowOn(
         Dispatchers.IO
     )
 
     override suspend fun getCharacterById(characterId: String) = flow {
-        emit(Resource.Success(dao.getCharacterById(characterId).toCharacterModel()))
+        try {
+            emit(Resource.Success(dao.getCharacterById(characterId).toCharacterModel()))
+        } catch (e: Exception) {
+            emit(Resource.Error(e.message ?: "unknown error"))
+        }
     }.flowOn(
         Dispatchers.IO
     )

@@ -14,9 +14,7 @@ import com.example.harrypotterapp.presentation.theme.getColorScheme
 @PreviewLightDark
 @PreviewFontScaleCustom
 @Composable
-fun DetailScreenContentPreview(
-    @PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterModel>
-) {
+fun DetailScreenContentPreview(@PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterModel>) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         DetailScreenComponent(characters.first())
     }

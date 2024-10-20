@@ -8,10 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.harrypotterapp.domain.Resource
 
 @Composable
-fun DetailScreenContent(
-    detailScreenViewModel: DetailScreenViewModel = hiltViewModel(),
-    characterId: String?
-) {
+fun DetailScreenContent(detailScreenViewModel: DetailScreenViewModel = hiltViewModel(), characterId: String?) {
     val state by detailScreenViewModel
         .singleCharacterScreenStat1e(
             characterId ?: ""
