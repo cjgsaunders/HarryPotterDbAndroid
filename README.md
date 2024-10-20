@@ -17,6 +17,8 @@ Compose for the views<br />
 Coil to asyncronously load images from the web into compose<br />
 Retrofit to make API calls<br />
 Room to persist data<br />
+Googles snapshot testing library<br />
+Flows to send data between the layers<br />
 <br />
 
 Designed with clean architecture keeping :<br />
