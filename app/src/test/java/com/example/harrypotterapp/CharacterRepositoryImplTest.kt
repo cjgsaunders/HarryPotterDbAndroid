@@ -8,6 +8,7 @@ import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.data.repository.CharacterRepositoryImpl
 import com.example.harrypotterapp.domain.Resource
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -28,11 +29,14 @@ class CharacterRepositoryImplTest {
     }
 
     @Test
-    fun `getCharacterData should emit loading and success`() = runTest {
-        val daoResult = listOf<CharacterEntity>()
-        val apiResult = listOf<CharacterDto>()
+    fun `given api responds, when getCharacterData called, return success and upsert data`() = runTest {
+        val characterDto: CharacterDto = mockk(relaxed = true)
+        val characterEntity: CharacterEntity = mockk(relaxed = true)
+        val daoResult = listOf(characterEntity)
+        val apiResult = listOf(characterDto)
 
         coEvery { dao.getAllData() } returns daoResult
+        coEvery { dao.upsertCharacter(any()) } returns Unit
         coEvery { api.getCharacter() } returns apiResult
 
         repository.getCharacterData().test {
@@ -40,6 +44,8 @@ class CharacterRepositoryImplTest {
             assertEquals(Resource.Success(daoResult), awaitItem())
             awaitComplete()
         }
+
+        coVerify { dao.upsertCharacter(any()) }
     }
 
     @Test
