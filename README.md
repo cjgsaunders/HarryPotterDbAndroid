@@ -8,16 +8,6 @@ https://github.com/user-attachments/assets/c6194b2f-0f2c-4872-83a2-e2e302a155dd
 
 
 
-Features<br />
-Offline mode - data is cached with room and the app is still usable without an internet connection. <br />
-Reposnive design - app will scale correctly on tablets and foldables using a grid design. <br />
-Accessibity itegrations - Data conveyed visually is added to the screen reader. <br />
-Font scaling - App is fully usable on any font scaling setting. Where text is too big the columns become scrollable. <br />
-Light / Dark mode <br />
-Screenshot testing is integrated to verify UI changes. <br />
-Test are included <br />
-
-
 
 Tech Used:<br />
 <br />
