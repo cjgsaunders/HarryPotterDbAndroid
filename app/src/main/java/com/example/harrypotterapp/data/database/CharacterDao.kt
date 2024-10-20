@@ -15,6 +15,7 @@ interface CharacterDao {
     @Query("SELECT * FROM CHARACTER WHERE name LIKE :searchText OR actor LIKE :searchText")
     fun searchCharacters(searchText: String): List<CharacterEntity>
 
+
     @Query("SELECT * FROM CHARACTER WHERE id = :characterId")
     fun getCharacterById(characterId: String): CharacterEntity
 }
