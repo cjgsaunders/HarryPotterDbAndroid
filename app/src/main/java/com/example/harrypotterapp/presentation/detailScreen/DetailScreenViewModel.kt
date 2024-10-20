@@ -21,18 +21,6 @@ class DetailScreenViewModel
 constructor(
     private val repository: CharacterRepository
 ) : ViewModel() {
-    // flow alternative
-    // needs launched effect
-//    private val _singleCharacterScreenState = MutableStateFlow<Resource<CharacterModel>>(Resource.Loading)
-//    val singleCharacterScreenState: StateFlow<Resource<CharacterModel>> = _singleCharacterScreenState
-//
-//    fun collectSelectedCharacter(characterId: String) {
-//        viewModelScope.launch {
-//            repository.getCharacterById(characterId).collect { resource ->
-//                _singleCharacterScreenState.value = resource
-//            }
-//        }
-//    }
 
     private val triggerChannel = Channel<Unit>(Channel.CONFLATED)
 

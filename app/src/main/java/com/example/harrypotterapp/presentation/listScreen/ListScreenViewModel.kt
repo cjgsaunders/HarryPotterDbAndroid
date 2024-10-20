@@ -90,9 +90,6 @@ constructor(
             .filterNot { !showLoadingScreen && it == Resource.Loading }
             .flowOn(Dispatchers.IO)
 
-    // Search filtered flow
-    // Hot flow to emit the current screen before a network request.
-    // Stops loading spinners showing in pages that wont update often
     @OptIn(ExperimentalCoroutinesApi::class)
     val filteredListScreenState: Flow<Resource<List<CharacterDomainModel>>> =
         searchText
