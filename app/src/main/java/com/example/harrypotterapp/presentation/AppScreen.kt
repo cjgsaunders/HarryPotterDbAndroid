@@ -1,6 +1,7 @@
 package com.example.harrypotterapp.presentation
 
 import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -17,6 +18,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
@@ -62,6 +66,18 @@ fun HarryPotterDbApp(navController: NavHostController = rememberNavController())
                 Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
+                    .background(
+                        brush =
+                        Brush.linearGradient(
+                            colors =
+                            listOf(
+                                LocalColorScheme.current.startBackground,
+                                LocalColorScheme.current.endBackground
+                            ),
+                            start = Offset(0f, Float.POSITIVE_INFINITY),
+                            end = Offset(Float.POSITIVE_INFINITY, 0f)
+                        )
+                    )
             ) {
                 composable(route = AppScreen.Start.name) {
                     ListScreenContent(

@@ -44,18 +44,6 @@ fun ListScreenComponent(
         modifier =
         Modifier
             .padding(horizontal = 0.dp)
-            .background(
-                brush =
-                Brush.linearGradient(
-                    colors =
-                    listOf(
-                        LocalColorScheme.current.startBackground,
-                        LocalColorScheme.current.endBackground
-                    ),
-                    start = Offset(0f, Float.POSITIVE_INFINITY),
-                    end = Offset(Float.POSITIVE_INFINITY, 0f)
-                )
-            )
     ) {
         SearchComponent(onSearchTextChange, characters.size, searchText)
         GridListComponent(characters, refresh, onCardClicked)

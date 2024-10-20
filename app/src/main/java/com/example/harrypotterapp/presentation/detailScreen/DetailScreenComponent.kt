@@ -45,7 +45,6 @@ fun DetailScreenComponent(character: CharacterDomainModel) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(LocalColorScheme.current.startBackground)
     ) {
         Card(
             shape = CardDefaults.shape,
