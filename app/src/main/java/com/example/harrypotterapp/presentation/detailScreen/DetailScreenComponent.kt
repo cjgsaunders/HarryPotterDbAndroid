@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import com.example.harrypotterapp.R
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 import com.example.harrypotterapp.presentation.listScreen.CardTitleGradientBackground
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
@@ -41,7 +41,7 @@ import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @Composable
-fun DetailScreenComponent(character: CharacterModel) {
+fun DetailScreenComponent(character: CharacterDomainModel) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -87,7 +87,7 @@ fun DetailScreenComponent(character: CharacterModel) {
 }
 
 @Composable
-private fun CharacterImage(character: CharacterModel) {
+private fun CharacterImage(character: CharacterDomainModel) {
     AsyncImage(
         alignment = Alignment.TopEnd,
         model = ImageRequest.Builder(LocalContext.current).data(character.image).build(),
@@ -100,7 +100,7 @@ private fun CharacterImage(character: CharacterModel) {
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
-private fun DateOfBirth(character: CharacterModel) {
+private fun DateOfBirth(character: CharacterDomainModel) {
     FlowRow {
         Text(
             stringResource(R.string.date_of_birth),
@@ -122,7 +122,7 @@ private fun DateOfBirth(character: CharacterModel) {
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
-private fun House(character: CharacterModel) {
+private fun House(character: CharacterDomainModel) {
     FlowRow {
         Text(
             stringResource(R.string.house),
@@ -143,7 +143,7 @@ private fun House(character: CharacterModel) {
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
-private fun Actor(character: CharacterModel) {
+private fun Actor(character: CharacterDomainModel) {
     FlowRow {
         Text(
             stringResource(R.string.played_by),
@@ -163,7 +163,7 @@ private fun Actor(character: CharacterModel) {
 }
 
 @Composable
-private fun AliveSpeciesIndicator(character: CharacterModel) {
+private fun AliveSpeciesIndicator(character: CharacterDomainModel) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 10.dp)
@@ -187,7 +187,7 @@ private fun AliveSpeciesIndicator(character: CharacterModel) {
 @PreviewLightDark
 @PreviewFontScaleCustom
 @Composable
-fun DetailScreenContentPreview(@PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterModel>) {
+fun DetailScreenContentPreview(@PreviewParameter(CharacterModelPreviewProvider::class) characters: List<CharacterDomainModel>) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         DetailScreenComponent(characters.first())
     }

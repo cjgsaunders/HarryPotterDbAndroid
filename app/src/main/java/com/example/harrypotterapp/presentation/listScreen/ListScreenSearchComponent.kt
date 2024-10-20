@@ -9,10 +9,8 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.stringResource
@@ -22,7 +20,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import com.example.harrypotterapp.R
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
@@ -75,7 +73,7 @@ fun SearchComponent(onSearchTextChange: (String) -> Unit, size: Int, searchText:
 @Composable
 fun SearchComponentWithTextPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>
+    characters: List<CharacterDomainModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         SearchComponent({}, 10, "test")
@@ -87,7 +85,7 @@ fun SearchComponentWithTextPreview(
 @Composable
 fun SearchComponentEmptyPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>
+    characters: List<CharacterDomainModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         SearchComponent({}, 1000, "")

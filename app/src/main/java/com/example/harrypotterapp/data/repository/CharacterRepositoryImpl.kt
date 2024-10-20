@@ -2,12 +2,10 @@ package com.example.harrypotterapp.data.repository
 
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.database.CharacterDao
-import com.example.harrypotterapp.data.mappers.toCharacterModel
-import com.example.harrypotterapp.data.mappers.toCharacterModelList
+import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.data.toDb
+import com.example.harrypotterapp.domain.CharacterRepository
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.domain.models.CharacterModel
-import com.example.harrypotterapp.domain.repository.CharacterRepository
 import java.time.Duration
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -31,11 +29,11 @@ constructor(
             .also { characters -> characters.map { dao.upsertCharacter(it) } }
     }
 
-    override suspend fun getCharacterData(): Flow<Resource<List<CharacterModel>>> = flow {
+    override suspend fun getCharacterData(): Flow<Resource<List<CharacterEntity>>> = flow {
         emit(Resource.Loading)
         emit(
             Resource.Success(
-                dao.getAllData().toCharacterModelList()
+                dao.getAllData()
             )
         )
     }.onStart {
@@ -55,7 +53,7 @@ constructor(
         try {
             emit(
                 Resource.Success(
-                    dao.searchCharacters(searchText).toCharacterModelList()
+                    dao.searchCharacters(searchText)
                 )
             )
         } catch (e: Exception) {
@@ -67,7 +65,7 @@ constructor(
 
     override suspend fun getCharacterById(characterId: String) = flow {
         try {
-            emit(Resource.Success(dao.getCharacterById(characterId).toCharacterModel()))
+            emit(Resource.Success(dao.getCharacterById(characterId)))
         } catch (e: Exception) {
             emit(Resource.Error(e.message ?: "unknown error"))
         }

@@ -1,9 +1,9 @@
-package com.example.harrypotterapp.data.mappers
+package com.example.harrypotterapp.domain.mappers
 
 import com.example.harrypotterapp.data.database.CharacterEntity
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 
-fun CharacterEntity.toCharacterModel(): CharacterModel = CharacterModel(
+fun CharacterEntity.toCharacterModel(): CharacterDomainModel = CharacterDomainModel(
     id = id,
     dateOfBirth = dateOfBirth.toFormattedDate(),
     alive = alive,
@@ -15,7 +15,7 @@ fun CharacterEntity.toCharacterModel(): CharacterModel = CharacterModel(
     image = image
 )
 
-fun List<CharacterEntity>.toCharacterModelList(): List<CharacterModel> {
-    val transform: (CharacterEntity) -> CharacterModel = { it.toCharacterModel() }
+fun List<CharacterEntity>.toCharacterModelList(): List<CharacterDomainModel> {
+    val transform: (CharacterEntity) -> CharacterDomainModel = { it.toCharacterModel() }
     return this.map(transform)
 }

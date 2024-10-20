@@ -2,13 +2,15 @@ package com.example.harrypotterapp
 
 import android.util.Log
 import com.example.harrypotterapp.data.database.CharacterEntity
-import com.example.harrypotterapp.data.mappers.HouseColor
-import com.example.harrypotterapp.data.mappers.mapHouseToColor
-import com.example.harrypotterapp.data.mappers.toCharacterModel
-import com.example.harrypotterapp.data.mappers.toCharacterModelList
-import com.example.harrypotterapp.data.mappers.toFormattedDate
+import com.example.harrypotterapp.domain.mappers.HouseColor
+import com.example.harrypotterapp.domain.mappers.mapHouseToColor
+import com.example.harrypotterapp.domain.mappers.toCharacterModel
+import com.example.harrypotterapp.domain.mappers.toCharacterModelList
+import com.example.harrypotterapp.domain.mappers.toFormattedDate
 import io.mockk.every
 import io.mockk.mockkStatic
+import io.mockk.unmockkAll
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
@@ -16,7 +18,7 @@ import org.junit.Test
 
 class CharacterEntityTest {
 
-    private val mockedDate = "28 Feb 2023"
+    private val mockedDate = "29 Feb 2023"
     private val mockedHouseColor = HouseColor.GRYFFINDOR
     private val characterEntityGoodData = CharacterEntity(
         id = "1",
@@ -28,7 +30,7 @@ class CharacterEntityTest {
         house = "Gryffindor",
         image = "image_url"
     )
-    val characterEntityEmptyData = CharacterEntity(
+    private val characterEntityEmptyData = CharacterEntity(
         id = "2",
         dateOfBirth = "1-1-2023",
         alive = false,
@@ -48,6 +50,11 @@ class CharacterEntityTest {
         every { "Gryffindor".mapHouseToColor() } returns mockedHouseColor
         every { "".mapHouseToColor() } returns HouseColor.DEFAULT
         every { null.toFormattedDate() } returns null
+    }
+
+    @After
+    fun tearDown() {
+        unmockkAll()
     }
 
     @Test

@@ -2,9 +2,10 @@ package com.example.harrypotterapp.presentation.listScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.harrypotterapp.domain.CharacterDomainModel
+import com.example.harrypotterapp.domain.CharacterRepository
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.domain.models.CharacterModel
-import com.example.harrypotterapp.domain.repository.CharacterRepository
+import com.example.harrypotterapp.domain.mappers.toCharacterModelList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.filterNot
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -65,13 +67,19 @@ constructor(
 
     // Initial flow
     @OptIn(ExperimentalCoroutinesApi::class)
-    val listScreenState: Flow<Resource<List<CharacterModel>>> =
+    val listScreenState: Flow<Resource<List<CharacterDomainModel>>> =
         triggerChannel
             .receiveAsFlow()
             .onStart {
                 triggerChannel.send(Unit)
             }.flatMapLatest {
-                repository.getCharacterData()
+                repository.getCharacterData().map { resource ->
+                    when (resource) {
+                        is Resource.Success -> Resource.Success(resource.data.toCharacterModelList())
+                        is Resource.Error -> Resource.Error(resource.error)
+                        is Resource.Loading -> Resource.Loading
+                    }
+                }
             }.onEach { screen ->
                 when (screen) {
                     is Resource.Error -> _toastMessage.value = screen.error
@@ -86,17 +94,23 @@ constructor(
     // Hot flow to emit the current screen before a network request.
     // Stops loading spinners showing in pages that wont update often
     @OptIn(ExperimentalCoroutinesApi::class)
-    val filteredListScreenState: Flow<Resource<List<CharacterModel>>> =
+    val filteredListScreenState: Flow<Resource<List<CharacterDomainModel>>> =
         searchText
             .flatMapLatest { query ->
                 if (query.isBlank()) {
                     listScreenState
                 } else {
-                    repository.searchCharacters(query)
+                    repository.searchCharacters(query).map { resource ->
+                        when (resource) {
+                            is Resource.Success -> Resource.Success(resource.data.toCharacterModelList())
+                            is Resource.Error -> Resource.Error(resource.error)
+                            is Resource.Loading -> Resource.Loading
+                        }
+                    }
                 }
             }.stateIn(
                 scope = this.viewModelScope,
-                started = SharingStarted.Lazily,
+                started = SharingStarted.WhileSubscribed(5000),
                 initialValue = Resource.Loading
             )
 

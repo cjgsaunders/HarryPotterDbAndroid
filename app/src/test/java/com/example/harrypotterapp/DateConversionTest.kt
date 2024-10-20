@@ -1,7 +1,7 @@
 package com.example.harrypotterapp
 
 import android.util.Log
-import com.example.harrypotterapp.data.mappers.toFormattedDate
+import com.example.harrypotterapp.domain.mappers.toFormattedDate
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals

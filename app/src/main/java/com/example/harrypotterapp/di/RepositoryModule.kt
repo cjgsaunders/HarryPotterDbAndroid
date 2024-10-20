@@ -1,7 +1,7 @@
 package com.example.harrypotterapp.di
 
 import com.example.harrypotterapp.data.repository.CharacterRepositoryImpl
-import com.example.harrypotterapp.domain.repository.CharacterRepository
+import com.example.harrypotterapp.domain.CharacterRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn

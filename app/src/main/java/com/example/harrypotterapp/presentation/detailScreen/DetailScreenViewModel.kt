@@ -1,15 +1,17 @@
 package com.example.harrypotterapp.presentation.detailScreen
 
 import androidx.lifecycle.ViewModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
+import com.example.harrypotterapp.domain.CharacterRepository
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.domain.models.CharacterModel
-import com.example.harrypotterapp.domain.repository.CharacterRepository
+import com.example.harrypotterapp.domain.mappers.toCharacterModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 
@@ -37,11 +39,17 @@ constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     val singleCharacterScreenStat1e: (
         String
-    ) -> Flow<Resource<CharacterModel>> = { characterId ->
+    ) -> Flow<Resource<CharacterDomainModel>> = { characterId ->
         triggerChannel
             .receiveAsFlow()
             .flatMapLatest {
                 repository.getCharacterById(characterId)
+            }.map { resource ->
+                when (resource) {
+                    is Resource.Success -> Resource.Success(resource.data.toCharacterModel())
+                    is Resource.Error -> Resource.Error(resource.error)
+                    is Resource.Loading -> Resource.Loading
+                }
             }.onStart { triggerChannel.send(Unit) }
     }
 }

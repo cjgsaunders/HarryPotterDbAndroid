@@ -13,8 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -25,14 +23,14 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
 import com.example.harrypotterapp.presentation.theme.getColorScheme
 
 @Composable
-fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
+fun CharacterCard(character: CharacterDomainModel, onCardClicked: (String) -> Unit) {
     Card(
         shape = CardDefaults.shape,
         colors =
@@ -60,7 +58,7 @@ fun CharacterCard(character: CharacterModel, onCardClicked: (String) -> Unit) {
 }
 
 @Composable
-fun CardTitleGradientBackground(character: CharacterModel) {
+fun CardTitleGradientBackground(character: CharacterDomainModel) {
     Column(
         modifier =
         Modifier
@@ -93,7 +91,7 @@ fun CardTitleGradientBackground(character: CharacterModel) {
 
 @Composable
 @OptIn(ExperimentalLayoutApi::class)
-fun ListScreenCardDetails(character: CharacterModel) {
+fun ListScreenCardDetails(character: CharacterDomainModel) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -145,7 +143,7 @@ fun ListScreenCardDetails(character: CharacterModel) {
 @Composable
 fun CharacterCardPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>
+    characters: List<CharacterDomainModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         CharacterCard(characters.first()) {}

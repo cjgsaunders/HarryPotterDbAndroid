@@ -2,8 +2,8 @@ package com.example.harrypotterapp
 
 import android.util.Log
 import androidx.compose.ui.graphics.Color
-import com.example.harrypotterapp.data.mappers.HouseColor
-import com.example.harrypotterapp.data.mappers.mapHouseToColor
+import com.example.harrypotterapp.domain.mappers.HouseColor
+import com.example.harrypotterapp.domain.mappers.mapHouseToColor
 import io.mockk.every
 import io.mockk.mockkStatic
 import org.junit.Assert.assertEquals

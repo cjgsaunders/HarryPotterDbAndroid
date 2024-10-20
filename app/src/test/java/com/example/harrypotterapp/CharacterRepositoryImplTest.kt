@@ -1,6 +1,5 @@
 package com.example.harrypotterapp
 
-import android.util.Log
 import app.cash.turbine.test
 import com.example.harrypotterapp.data.CharacterApi
 import com.example.harrypotterapp.data.CharacterDto
@@ -8,11 +7,8 @@ import com.example.harrypotterapp.data.database.CharacterDao
 import com.example.harrypotterapp.data.database.CharacterEntity
 import com.example.harrypotterapp.data.repository.CharacterRepositoryImpl
 import com.example.harrypotterapp.domain.Resource
-import com.example.harrypotterapp.domain.models.CharacterModel
 import io.mockk.coEvery
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.mockkStatic
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -35,14 +31,13 @@ class CharacterRepositoryImplTest {
     fun `getCharacterData should emit loading and success`() = runTest {
         val daoResult = listOf<CharacterEntity>()
         val apiResult = listOf<CharacterDto>()
-        val result = listOf<CharacterModel>()
 
         coEvery { dao.getAllData() } returns daoResult
         coEvery { api.getCharacter() } returns apiResult
 
         repository.getCharacterData().test {
             assertEquals(Resource.Loading, awaitItem())
-            assertEquals(Resource.Success(result), awaitItem())
+            assertEquals(Resource.Success(daoResult), awaitItem())
             awaitComplete()
         }
     }
@@ -51,7 +46,6 @@ class CharacterRepositoryImplTest {
     fun `given a network error, when calling getAllData, load successfully from local database`() = runTest {
         val daoResult = listOf<CharacterEntity>()
         val apiResult = Exception("Network error")
-        val result = listOf<CharacterModel>()
 
         coEvery { dao.getAllData() } returns daoResult
         coEvery { api.getCharacter() } throws apiResult
@@ -60,7 +54,7 @@ class CharacterRepositoryImplTest {
             val error = awaitItem()
             assert(error is Resource.Error && error.error == "Network error")
             assertEquals(Resource.Loading, awaitItem())
-            assertEquals(Resource.Success(result), awaitItem())
+            assertEquals(Resource.Success(daoResult), awaitItem())
             awaitComplete()
         }
     }
@@ -85,15 +79,15 @@ class CharacterRepositoryImplTest {
 
     @Test
     fun `given apis respond success, when search is called, respond Resource Success with data`() = runTest {
-        val daoResult = listOf<CharacterEntity>()
-        val result = listOf<CharacterModel>()
+        val characterEntity: CharacterEntity = mockk(relaxed = true)
+        val characterEntity1: CharacterEntity = mockk(relaxed = true)
+        val daoResult = listOf(characterEntity, characterEntity1)
         val searchString = "Harry"
 
         coEvery { dao.searchCharacters(searchString) } returns daoResult
-        coEvery { dao.searchCharacters("%$searchString%") } returns daoResult
 
         repository.searchCharacters(searchString).test {
-            assertEquals(Resource.Success(result), awaitItem())
+            assertEquals(Resource.Success(daoResult), awaitItem())
             awaitComplete()
         }
     }
@@ -115,27 +109,12 @@ class CharacterRepositoryImplTest {
     @Test
     fun `given dao responds with success, when get by id called, then return that character`() = runTest {
         val characterId = "1"
-        mockkStatic(Log::class)
-        every { Log.i(any(), any()) } returns 0
-        every { Log.e(any(), any()) } returns 0
-        val daoResult = CharacterEntity(
-            id = "1",
-            dateOfBirth = null,
-            alive = true,
-            name = "Harry Potter",
-            actor = "Daniel Radcliffe",
-            species = "human",
-            house = "",
-            image = ""
-        )
-
-        val result =
-            CharacterModel("1", "Harry Potter", "Daniel Radcliffe", null, null, "", true, "Human", "Not in a Hogwarts House")
+        val daoResult: CharacterEntity = mockk()
 
         coEvery { dao.getCharacterById(characterId) } returns daoResult
 
         repository.getCharacterById(characterId).test {
-            assertEquals(Resource.Success(result), awaitItem())
+            assertEquals(Resource.Success(daoResult), awaitItem())
             awaitComplete()
         }
     }

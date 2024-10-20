@@ -2,14 +2,14 @@ package com.example.harrypotterapp.presentation.previewproviders
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 
-class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterModel>> {
-    override val values: Sequence<List<CharacterModel>>
+class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterDomainModel>> {
+    override val values: Sequence<List<CharacterDomainModel>>
         get() =
             sequenceOf(
                 listOf(
-                    CharacterModel(
+                    CharacterDomainModel(
                         characterName = "Harry Potter",
                         id = "52",
                         actor = "Daniel Radcliffe",
@@ -20,7 +20,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         houseColour = Color(0xFF740001),
                         species = "human"
                     ),
-                    CharacterModel(
+                    CharacterDomainModel(
                         characterName = "Cedric Diggory",
                         id = "52",
                         actor = "Robert Pattinson",
@@ -31,7 +31,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         houseColour = Color(0xFFeeb939),
                         species = "human"
                     ),
-                    CharacterModel(
+                    CharacterDomainModel(
                         characterName = "Cho Chang",
                         id = "52",
                         actor = "Katie Leung",
@@ -42,7 +42,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         houseColour = Color(0xFF0c1a40),
                         species = "human"
                     ),
-                    CharacterModel(
+                    CharacterDomainModel(
                         characterName = "Severus Snape",
                         id = "52",
                         actor = "Katie Leung",
@@ -53,7 +53,7 @@ class CharacterModelPreviewProvider : PreviewParameterProvider<List<CharacterMod
                         houseColour = Color(0xFF1a472a),
                         species = "human"
                     ),
-                    CharacterModel(
+                    CharacterDomainModel(
                         characterName = "Severus Snape",
                         id = "52",
                         actor = "Katie Leung",

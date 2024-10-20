@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.example.harrypotterapp.domain.models.CharacterModel
+import com.example.harrypotterapp.domain.CharacterDomainModel
 import com.example.harrypotterapp.presentation.previewproviders.CharacterModelPreviewProvider
 import com.example.harrypotterapp.presentation.previewproviders.PreviewFontScaleCustom
 import com.example.harrypotterapp.presentation.theme.LocalColorScheme
@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ListScreenComponent(
-    characters: List<CharacterModel>,
+    characters: List<CharacterDomainModel>,
     onSearchTextChange: (String) -> Unit,
     refresh: () -> Unit,
     onCardClicked: (String) -> Unit,
@@ -64,7 +64,12 @@ fun ListScreenComponent(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun GridListComponent(characters: List<CharacterModel>, refresh: () -> Unit, onCardClicked: (String) -> Unit, modifier: Modifier = Modifier) {
+private fun GridListComponent(
+    characters: List<CharacterDomainModel>,
+    refresh: () -> Unit,
+    onCardClicked: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     val refreshState = rememberPullToRefreshState()
     var isRefreshing by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
@@ -98,7 +103,7 @@ private fun GridListComponent(characters: List<CharacterModel>, refresh: () -> U
 @Composable
 fun SuccessComponentPreview(
     @PreviewParameter(CharacterModelPreviewProvider::class)
-    characters: List<CharacterModel>
+    characters: List<CharacterDomainModel>
 ) {
     CompositionLocalProvider(LocalColorScheme provides getColorScheme()) {
         ListScreenComponent(characters, {}, {}, {}, "")

@@ -1,4 +1,4 @@
-package com.example.harrypotterapp.data.mappers
+package com.example.harrypotterapp.domain.mappers
 
 import android.util.Log
 import androidx.compose.ui.graphics.Color
