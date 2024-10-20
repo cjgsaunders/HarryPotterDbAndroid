@@ -10,8 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
@@ -77,23 +74,22 @@ fun DetailScreenComponent(character: CharacterDomainModel) {
                     end = screen_margin
                 ).fillMaxWidth()
         ) {
-                CardTitleGradientBackground(character)
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    Column(Modifier.fillMaxWidth(0.6f).verticalScroll(rememberScrollState())) {
-                        AliveSpeciesIndicator(character)
+            CardTitleGradientBackground(character)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Column(Modifier.fillMaxWidth(0.6f).verticalScroll(rememberScrollState())) {
+                    AliveSpeciesIndicator(character)
 
-                        Actor(character)
-                        House(character)
-                        DateOfBirth(character)
-                    }
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.End
-                    ) {
-                        CharacterImage(character)
-                    }
+                    Actor(character)
+                    House(character)
+                    DateOfBirth(character)
                 }
-
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                ) {
+                    CharacterImage(character)
+                }
+            }
         }
     }
 }
