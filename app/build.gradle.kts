@@ -70,15 +70,6 @@ android {
     }
 
     dependencies {
-
-        androidTestImplementation(libs.androidx.espresso.core)
-        androidTestImplementation(libs.androidx.junit)
-        androidTestImplementation(libs.androidx.ui.test.junit4)
-        androidTestImplementation(libs.mockk)
-        androidTestImplementation(libs.truth)
-        androidTestImplementation(platform(libs.androidx.compose.bom))
-        debugImplementation(libs.androidx.ui.test.manifest)
-        debugImplementation(libs.androidx.ui.tooling)
         implementation(libs.androidx.activity.compose)
         implementation(libs.androidx.core.ktx)
         implementation(libs.androidx.lifecycle.runtime.compose.android)
@@ -103,10 +94,20 @@ android {
         implementation(platform(libs.androidx.compose.bom))
         ksp(libs.hilt.android.compiler)
         ksp(libs.room.compiler)
+
+
         screenshotTestImplementation(libs.androidx.compose.ui.tooling)
-        testImplementation(libs.kotlinx.coroutines.test)
-        testImplementation(libs.turbine)
         testImplementation(libs.junit)
+        testImplementation(libs.kotlinx.coroutines.test)
         testImplementation(libs.mockk)
+        testImplementation(libs.turbine)
+        androidTestImplementation(libs.androidx.espresso.core)
+        androidTestImplementation(libs.androidx.junit)
+        androidTestImplementation(libs.androidx.ui.test.junit4)
+        androidTestImplementation(libs.mockk)
+        androidTestImplementation(libs.truth)
+        androidTestImplementation(platform(libs.androidx.compose.bom))
+        debugImplementation(libs.androidx.ui.test.manifest)
+        debugImplementation(libs.androidx.ui.tooling)
     }
 }
