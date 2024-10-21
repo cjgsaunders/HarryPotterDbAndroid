@@ -4,7 +4,7 @@
     <string name="back_button">Back</string>
     <string name="unknown_error">Unknown Error</string>
     <string name="unknown">Unknown</string>
-    <string name="search_placeholder">Search actor or character name</string>
+    <string name="search_placeholder">actor / character</string>
     <string name="results">Results</string>
     <string name="played_by">Played by:</string>
     <string name="species">Species:</string>
