@@ -64,7 +64,7 @@ class DetailScreenViewModelTest {
                 houseNameLabel = "Not in a Hogwarts House"
             )
         val resource = Resource.Success(character)
-        coEvery { repository.getCharacterById(characterId) } returns flowOf<Resource<CharacterEntity>>(resource)
+        coEvery { repository.getCharacterById(characterId) } returns flowOf(resource)
 
         val result = viewModel.singleCharacterScreenState(characterId).first()
 

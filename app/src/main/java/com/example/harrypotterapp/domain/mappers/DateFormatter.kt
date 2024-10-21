@@ -3,22 +3,22 @@ package com.example.harrypotterapp.domain.mappers
 import android.util.Log
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.util.Locale
 
 fun String?.toFormattedDate(): String? {
-    var result: String? = null
-    val patterns = listOf("d-M-yyyy", "dd-MM-yyyy")
     val outputFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
+    val formatter = DateTimeFormatterBuilder()
+        .appendOptional(DateTimeFormatter.ofPattern("d-M-yyyy"))
+        .appendOptional(DateTimeFormatter.ofPattern("dd-MM-yyyy"))
+        .toFormatter(Locale.getDefault())
 
-    for (datePattern in patterns) {
-        val inputFormatter = DateTimeFormatter.ofPattern(datePattern)
-        try {
-            val date = LocalDate.parse(this, inputFormatter)
-            result = date.format(outputFormatter)
-            Log.i("DateConversion", "success $result")
-            break
-        } catch (e: Exception) {
-            Log.e("DateConversion", "Invalid date: ${e.message} $this")
+    return try {
+        LocalDate.parse(this, formatter).format(outputFormatter).also {
+            Log.i("DateConversion", "success $it")
         }
+    } catch (e: Exception) {
+        Log.e("DateConversion", "Invalid date: ${e.message} $this")
+        null
     }
-    return result
 }
