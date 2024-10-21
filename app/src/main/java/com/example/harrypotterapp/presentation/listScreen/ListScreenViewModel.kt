@@ -38,6 +38,7 @@ constructor(
     private var showErrorScreen = true
 
     private val _searchText = MutableStateFlow("")
+
     @OptIn(FlowPreview::class)
     val searchText =
         _searchText

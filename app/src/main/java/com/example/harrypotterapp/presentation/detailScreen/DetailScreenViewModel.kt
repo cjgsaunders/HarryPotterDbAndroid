@@ -25,7 +25,7 @@ constructor(
     private val triggerChannel = Channel<Unit>(Channel.CONFLATED)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val singleCharacterScreenStat1e: (
+    val singleCharacterScreenState: (
         String
     ) -> Flow<Resource<CharacterDomainModel>> = { characterId ->
         triggerChannel

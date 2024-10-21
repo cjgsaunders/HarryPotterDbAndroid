@@ -11,7 +11,7 @@ import com.example.harrypotterapp.domain.Resource
 @Composable
 fun DetailScreenContent(detailScreenViewModel: DetailScreenViewModel = hiltViewModel(), characterId: String?) {
     val state by detailScreenViewModel
-        .singleCharacterScreenStat1e(
+        .singleCharacterScreenState(
             characterId ?: ""
         ).collectAsStateWithLifecycle(initialValue = Resource.Loading)
 

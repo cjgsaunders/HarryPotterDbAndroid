@@ -95,7 +95,6 @@ android {
         ksp(libs.hilt.android.compiler)
         ksp(libs.room.compiler)
 
-
         screenshotTestImplementation(libs.androidx.compose.ui.tooling)
         testImplementation(libs.junit)
         testImplementation(libs.kotlinx.coroutines.test)
