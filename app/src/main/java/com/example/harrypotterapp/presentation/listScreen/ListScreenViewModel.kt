@@ -33,18 +33,11 @@ open class ListScreenViewModel
 constructor(
     private val repository: CharacterRepository
 ) : ViewModel() {
+
     private var showLoadingScreen = true
     private var showErrorScreen = true
 
-    fun triggerRefresh() {
-        showLoadingScreen = false
-        viewModelScope.launch {
-            triggerChannel.send(Unit)
-        }
-    }
-
     private val _searchText = MutableStateFlow("")
-
     @OptIn(FlowPreview::class)
     val searchText =
         _searchText
@@ -55,10 +48,6 @@ constructor(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = ""
             )
-
-    fun onSearchTextChange(searchText: String) {
-        _searchText.value = searchText
-    }
 
     private var _toastMessage = MutableStateFlow<String?>(null)
     var toastMessage = _toastMessage.asStateFlow()
@@ -110,6 +99,17 @@ constructor(
                 started = SharingStarted.WhileSubscribed(5000),
                 initialValue = Resource.Loading
             )
+
+    fun triggerRefresh() {
+        showLoadingScreen = false
+        viewModelScope.launch {
+            triggerChannel.send(Unit)
+        }
+    }
+
+    fun onSearchTextChange(searchText: String) {
+        _searchText.value = searchText
+    }
 
     fun clearToast() {
         _toastMessage.value = null
