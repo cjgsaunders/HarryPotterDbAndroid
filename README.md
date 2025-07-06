@@ -1,6 +1,9 @@
-My latest project. A Jetpack Compose Android app that uses the Harry Potter Character API (https://hp-api.onrender.com/api/characters) <br />
-<br />
+A Jetpack Compose Android app that fetches data from a Harry Potter Character API (https://hp-api.onrender.com/api/characters) . The app features a responsive UI that adapts to different screen sizes, with full support for dark and light modes.  <br />
+ 
+Users can search characters by name or actor, with real-time filtering.  <br />
 
+App has an offline mode showing data cached to the device using room if it cannot reach the API. <br />
+ <br />
 
 
 https://github.com/user-attachments/assets/c6194b2f-0f2c-4872-83a2-e2e302a155dd
